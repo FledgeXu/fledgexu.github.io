@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>曳东搬西</title>
+  
+  
+  <link href="http://blog.otakusaikou.com/atom.xml" rel="self"/>
+  
+  <link href="http://blog.otakusaikou.com/"/>
+  <updated>2020-11-02T06:21:30.781Z</updated>
+  <id>http://blog.otakusaikou.com/</id>
+  
+  <author>
+    <name>Fledge Shiu</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>你好世界</title>
+    <link href="http://blog.otakusaikou.com/2020/11/02/Hello-Wolrd/"/>
+    <id>http://blog.otakusaikou.com/2020/11/02/Hello-Wolrd/</id>
+    <published>2020-11-02T14:16:19.000Z</published>
+    <updated>2020-11-02T06:21:30.781Z</updated>
+    
+    <content type="html"><![CDATA[<p>看起来 Hexo 必须要有一篇文章才会生成 <code>index.htm</code>，那么我就创建这一篇文章作为占位符吧。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;看起来 Hexo 必须要有一篇文章才会生成 &lt;code&gt;index.htm&lt;/code&gt;，那么我就创建这一篇文章作为占位符吧。&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
