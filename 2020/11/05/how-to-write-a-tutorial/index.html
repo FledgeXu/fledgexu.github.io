@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://blog.otakusaikou.com/2020/11/05/how-to-write-a-tutorial/image-20201105123703489.png">
 <meta property="og:image" content="http://blog.otakusaikou.com/2020/11/05/how-to-write-a-tutorial/image-20201105123738827.png">
 <meta property="article:published_time" content="2020-11-05T12:19:08.000Z">
-<meta property="article:modified_time" content="2020-11-05T05:27:29.867Z">
+<meta property="article:modified_time" content="2020-11-05T05:30:15.319Z">
 <meta property="article:author" content="Fledge Shiu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.otakusaikou.com/2020/11/05/how-to-write-a-tutorial/image-20201105123703489.png">
@@ -157,9 +157,9 @@
 <p>其次我们来讲一下分发 docx 文件为什么不好，你得先明确一点，docx 是 Microsoft Office 的格式而 Minecraft 是个跨平台的游戏，你的读者不是一定只是 Windows 用户，也可以是 macOS 和 Linux 用户，哪怕是 Windows 用户，也不一定就买了 Office，这一点就决定了对于他们来说打开 docx 其实并不是一件非常方便的事情。另外用 docx 来分发你的教程，如果你的教程需要持续更新，读者也需要不时的重新下载一遍，这个显然是不可取的。</p>
 <p>有的作者可能会选择将自己的教程内容直接发布在某个论坛之上。但是这其实也不是一个非常好的办法，因为不同的论坛有不同的规定，你的教程很有可能在某天就变得无法访问了，这相当于将你的教程拱手送给了论坛。</p>
 <p>而一个单独的网页则没有以上的问题，读者只需要输入地址即可访问，也不需要不断的重复下载一个文件，而且你可以自己控制网页的样式，并且可以做到自动化：在每次更新之后只要经过简单的步骤就可以更新对应的网页。</p>
-<h2 id="撰写"><a href="#撰写" class="headerlink" title="撰写"></a>撰写</h2><p>你可以使用 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Markdown">Markdown</a> 作为你的写作格式，一切根据你需要来，有些作者可能会更加习惯 LaTex 等格式。关于 Markdown 的语法，这里就不多加说明了，非常容易学习。之后你得选定一个网页生成器，对于长篇的教程来说，合适的工具是各种电子书生成器，比如 <a target="_blank" rel="noopener" href="https://github.com/rust-lang/mdBook">mdbook</a>（可能有的作者会使用 GitBook，但是 Gitbook 这个项目其实已经不再更新了，建议不要再使用了）。</p>
+<h2 id="撰写"><a href="#撰写" class="headerlink" title="撰写"></a>撰写</h2><p>你可以使用 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Markdown">Markdown</a> 作为你的写作格式，一切根据你需要来，有些作者可能会更加习惯 LaTex 等格式。关于 Markdown 的语法，这里就不多加说明了，非常容易学习。之后你得选定一个网页生成器，对于长篇的教程来说，合适的工具是各种电子书生成器，比如 <a target="_blank" rel="noopener" href="https://github.com/rust-lang/mdBook">mdbook</a>（可能有的作者会使用 GitBook，但是 Gitbook 这个项目已经停止更新了，请不要使用了）。</p>
 <p>接下来你就可以通过这些工具，写出一个精美的教程了。</p>
-<h2 id="构建与发布"><a href="#构建与发布" class="headerlink" title="构建与发布"></a>构建与发布</h2><p>在你写了一定内容的教程之后，你接下来面临的一个问题就是如何发布你的教程，这里推荐使用 <a target="_blank" rel="noopener" href="https://pages.github.com/">Github Pages</a> 的功能，你不需要有自己的域名和服务器，可以直接发布静态网页。当然，很多作者可能会将教程在本地构建完成，然后再通过 Git 同步到 Github 仓库上，但这其实不是一种好的方式，构建工作应该自动进行。你可以通过类似 <a target="_blank" rel="noopener" href="https://github.com/features/actions">Github Action</a> 这样的工具，自动的构建与发布你的教程，这里是Neutrino 的<a target="_blank" rel="noopener" href="https://github.com/FledgeXu/Neutrino/blob/master/.github/workflows/deploy.yaml">例子</a>。</p>
+<h2 id="构建与发布"><a href="#构建与发布" class="headerlink" title="构建与发布"></a>构建与发布</h2><p>在你写了一定内容的教程之后，你接下来面临的一个问题就是如何发布你的教程，这里推荐使用 <a target="_blank" rel="noopener" href="https://pages.github.com/">Github Pages</a> 的功能，你不需要有自己的域名和服务器，可以直接发布静态网页。当然，很多作者可能会将教程在本地构建完成，然后再通过 Git 同步到 Github 仓库上，但这其实不是一种好的方式，构建工作应该自动进行。你可以通过类似 <a target="_blank" rel="noopener" href="https://github.com/features/actions">Github Action</a> 这样的工具，自动的构建与发布你的教程，这里是 Neutrino 的<a target="_blank" rel="noopener" href="https://github.com/FledgeXu/Neutrino/blob/master/.github/workflows/deploy.yaml">例子</a>。</p>
 <p>最后呈现出来的效果是，我只要修改好内容，然后向 Github push 修改好的内容，对应的网站会自动的更新与发布。</p>
 <h2 id="一些额外事项"><a href="#一些额外事项" class="headerlink" title="一些额外事项"></a>一些额外事项</h2><p>在开始写作一个教程的时候，你需要选择一个合适的许可证，这个许可证会在一定程度上保护你的权利，这里建议使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/">Creative Commons</a> 系列许可证。</p>
 
