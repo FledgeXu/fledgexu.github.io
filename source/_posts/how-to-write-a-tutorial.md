@@ -32,13 +32,13 @@ tags:
 
 ## 撰写
 
-你可以使用 [Markdown](https://zh.wikipedia.org/wiki/Markdown) 作为你的写作格式，一切根据你需要来，有些作者可能会更加习惯 LaTex 等格式。关于 Markdown 的语法，这里就不多加说明了，非常容易学习。之后你得选定一个网页生成器，对于长篇的教程来说，合适的工具是各种电子书生成器，比如 [mdbook](https://github.com/rust-lang/mdBook)（可能有的作者会使用 GitBook，但是 Gitbook 这个项目其实已经不再更新了，建议不要再使用了）。
+你可以使用 [Markdown](https://zh.wikipedia.org/wiki/Markdown) 作为你的写作格式，一切根据你需要来，有些作者可能会更加习惯 LaTex 等格式。关于 Markdown 的语法，这里就不多加说明了，非常容易学习。之后你得选定一个网页生成器，对于长篇的教程来说，合适的工具是各种电子书生成器，比如 [mdbook](https://github.com/rust-lang/mdBook)（可能有的作者会使用 GitBook，但是 Gitbook 这个项目已经停止更新了，请不要使用了）。
 
 接下来你就可以通过这些工具，写出一个精美的教程了。
 
 ## 构建与发布
 
-在你写了一定内容的教程之后，你接下来面临的一个问题就是如何发布你的教程，这里推荐使用 [Github Pages](https://pages.github.com) 的功能，你不需要有自己的域名和服务器，可以直接发布静态网页。当然，很多作者可能会将教程在本地构建完成，然后再通过 Git 同步到 Github 仓库上，但这其实不是一种好的方式，构建工作应该自动进行。你可以通过类似 [Github Action](https://github.com/features/actions) 这样的工具，自动的构建与发布你的教程，这里是Neutrino 的[例子](https://github.com/FledgeXu/Neutrino/blob/master/.github/workflows/deploy.yaml)。
+在你写了一定内容的教程之后，你接下来面临的一个问题就是如何发布你的教程，这里推荐使用 [Github Pages](https://pages.github.com) 的功能，你不需要有自己的域名和服务器，可以直接发布静态网页。当然，很多作者可能会将教程在本地构建完成，然后再通过 Git 同步到 Github 仓库上，但这其实不是一种好的方式，构建工作应该自动进行。你可以通过类似 [Github Action](https://github.com/features/actions) 这样的工具，自动的构建与发布你的教程，这里是 Neutrino 的[例子](https://github.com/FledgeXu/Neutrino/blob/master/.github/workflows/deploy.yaml)。
 
 最后呈现出来的效果是，我只要修改好内容，然后向 Github push 修改好的内容，对应的网站会自动的更新与发布。
 
