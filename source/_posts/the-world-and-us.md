@@ -26,3 +26,5 @@ tags:
 
 ![image-20201105123703489](people-net.jpg)
 
+![image-20201105123703489](peoples-daily-twitter.jpg)
+
