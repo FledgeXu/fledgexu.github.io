@@ -9,17 +9,17 @@
     <meta name="description" content="背景故事这一次踩坑之旅的起源是一段来自内核恐慌 Telegram 群的关于 IPv6 的讨论，Rio 发了关于他配置 IPv6 时候的踩坑帖子，而我正好一直想把家里软路由的 IPv6 配置起来，就有了这一次经历。这里非常感谢 Rio 和听众群的朋友，没有他们的帮助也就没有这次的经历。 关于 IPv6 的小介绍在开始配置环境之前，我想先做一个关于 IPv6 的小介绍。介绍一下之后会涉及到的一些概念，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="X86 软路由配置 IPv6 踩坑小记">
-<meta property="og:url" content="http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/index.html">
+<meta property="og:url" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/index.html">
 <meta property="og:site_name" content="曳东搬西">
 <meta property="og:description" content="背景故事这一次踩坑之旅的起源是一段来自内核恐慌 Telegram 群的关于 IPv6 的讨论，Rio 发了关于他配置 IPv6 时候的踩坑帖子，而我正好一直想把家里软路由的 IPv6 配置起来，就有了这一次经历。这里非常感谢 Rio 和听众群的朋友，没有他们的帮助也就没有这次的经历。 关于 IPv6 的小介绍在开始配置环境之前，我想先做一个关于 IPv6 的小介绍。介绍一下之后会涉及到的一些概念，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/ppp0.jpeg">
-<meta property="og:image" content="http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/lan.jpeg">
+<meta property="og:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/ppp0.jpeg">
+<meta property="og:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/lan.jpeg">
 <meta property="article:published_time" content="2020-11-11T12:46:28.000Z">
-<meta property="article:modified_time" content="2020-11-11T06:50:20.689Z">
+<meta property="article:modified_time" content="2020-11-11T06:52:43.169Z">
 <meta property="article:author" content="Fledge Shiu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/ppp0.jpeg">
+<meta name="twitter:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/ppp0.jpeg">
     
     
       
@@ -92,17 +92,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&text=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&is_video=false&description=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=X86 软路由配置 IPv6 踩坑小记&body=Check out this article: http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&name=X86 软路由配置 IPv6 踩坑小记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&t=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&text=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&is_video=false&description=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=X86 软路由配置 IPv6 踩坑小记&body=Check out this article: http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&name=X86 软路由配置 IPv6 踩坑小记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&t=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -255,17 +255,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&text=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&is_video=false&description=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=X86 软路由配置 IPv6 踩坑小记&body=Check out this article: http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&name=X86 软路由配置 IPv6 踩坑小记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2020/11/11/x86-software-router-and-ipv6/&t=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&text=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&is_video=false&description=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=X86 软路由配置 IPv6 踩坑小记&body=Check out this article: http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&name=X86 软路由配置 IPv6 踩坑小记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&t=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
