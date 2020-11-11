@@ -244,6 +244,6 @@ enable-ra
 dhcp-range=::,constructor:br0,ra-only,slaac
 ```
 
-`br0` 填入入你的局域网接口。
+`br0` 填入你的局域网接口。
 
 这时你的局域网设备应该也能分配到全球唯一的 IPv6 地址了。
