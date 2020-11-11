@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/ppp0.jpeg">
 <meta property="og:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/lan.jpeg">
 <meta property="article:published_time" content="2020-11-11T12:46:28.000Z">
-<meta property="article:modified_time" content="2020-11-11T06:52:43.169Z">
+<meta property="article:modified_time" content="2020-11-11T11:44:12.563Z">
 <meta property="article:author" content="Fledge Shiu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/ppp0.jpeg">
@@ -225,7 +225,7 @@
 <p>最后需要向局域网设备发送 RA ，使用 slaac 来分配IP地址，这里我们使用了 Dnsmasq，因为 Dnsmasq 是个非常常用的软件，就不多介绍了，在 Dnsmasq 的配置文件里加上:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">enable-ra</span><br><span class="line">dhcp-range&#x3D;::,constructor:br0,ra-only,slaac</span><br></pre></td></tr></table></figure>
 
-<p><code>br0</code> 填入入你的局域网接口。</p>
+<p><code>br0</code> 填入你的局域网接口。</p>
 <p>这时你的局域网设备应该也能分配到全球唯一的 IPv6 地址了。</p>
 
   </div>
