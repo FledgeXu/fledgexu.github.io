@@ -57,9 +57,8 @@ ipns3,users3_id
 用户发帖格式：
 
 ```
----Meta---
-Preview_CID: [回复/帖子/主题的CID,] 
----Content--- 
+Preview_CID:[回复/帖子/主题的CID,] 
+Date:Unix时间戳
 Title:
 Lorem ipsum 
 Content:
