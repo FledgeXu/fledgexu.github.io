@@ -59,6 +59,7 @@ ipns3,users3_id
 ```
 Preview_CID:[回复/帖子/主题的CID,] 
 Date:Unix时间戳
+File_Type:plain
 Title:
 Lorem ipsum 
 Content:
