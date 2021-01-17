@@ -19,7 +19,7 @@ jobs:
         with:
             path: node_modules
             key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
-      - name: build 
+      - name: Build 
         env:
             IPFS_DEPLOY_PINATA__API_KEY: ${{ secrets.IPFS_DEPLOY_PINATA__API_KEY }}
             IPFS_DEPLOY_PINATA__SECRET_API_KEY: ${{ secrets.IPFS_DEPLOY_PINATA__SECRET_API_KEY }}
