@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-        #    paths:
-        #      - 'source/_posts/**'
+    paths:
+      - 'source/_posts/**'
 jobs:
   deploy:
     runs-on: ubuntu-18.04
