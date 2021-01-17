@@ -19,11 +19,19 @@ jobs:
         with:
             path: node_modules
             key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
+        env:
+            IPFS_DEPLOY_PINATA__API_KEY: ${{ secrets.IPFS_DEPLOY_PINATA__API_KEY }}
+            IPFS_DEPLOY_PINATA__SECRET_API_KEY: ${{ secrets.IPFS_DEPLOY_PINATA__SECRET_API_KEY }}
+            IPFS_DEPLOY_CLOUDFLARE__API_TOKEN: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__API_TOKEN }}
+            IPFS_DEPLOY_CLOUDFLARE__ZONE: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__ZONE }}
+            IPFS_DEPLOY_CLOUDFLARE__RECORD: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__RECORD }}
       - run: git submodule init
       - run: git submodule update
+      - run: npm install ipfs-deploy -g
       - run: npm install hexo-cli -g
       - run: npm install
       - run: hexo generate
+      - run: ipd -p pinata -d cloudflare -C -O
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
