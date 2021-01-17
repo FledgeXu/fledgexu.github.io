@@ -26,14 +26,14 @@ jobs:
             IPFS_DEPLOY_CLOUDFLARE__API_TOKEN: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__API_TOKEN }}
             IPFS_DEPLOY_CLOUDFLARE__ZONE: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__ZONE }}
             IPFS_DEPLOY_CLOUDFLARE__RECORD: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__RECORD }}
-      - run: |
-          git submodule init
-          git submodule update
-          npm install ipfs-deploy -g
-          npm install hexo-cli -g
-          npm install
-          hexo generate
-          ipd -p pinata -d cloudflare -C -O
+        run: |
+            git submodule init
+            git submodule update
+            npm install ipfs-deploy -g
+            npm install hexo-cli -g
+            npm install
+            hexo generate
+            ipd -p pinata -d cloudflare -C -O
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
