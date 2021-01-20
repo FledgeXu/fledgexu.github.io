@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'source/_posts/**'
+      - '.github/**'
 jobs:
   deploy:
     runs-on: ubuntu-18.04
@@ -26,6 +27,9 @@ jobs:
             IPFS_DEPLOY_CLOUDFLARE__API_TOKEN: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__API_TOKEN }}
             IPFS_DEPLOY_CLOUDFLARE__ZONE: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__ZONE }}
             IPFS_DEPLOY_CLOUDFLARE__RECORD: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__RECORD }}
+            IPFS_DEPLOY_IPFS_CLUSTER__HOST: ${{ secrets.IPFS_DEPLOY_IPFS_CLUSTER__HOST }}
+            IPFS_DEPLOY_IPFS_CLUSTER__USERNAME: ${{ secrets.IPFS_DEPLOY_IPFS_CLUSTER__USERNAME }}
+            IPFS_DEPLOY_IPFS_CLUSTER__PASSWORD: ${{ secrets.IPFS_DEPLOY_IPFS_CLUSTER__PASSWORD }}
         run: |
             git submodule init
             git submodule update
@@ -33,7 +37,7 @@ jobs:
             npm install hexo-cli -g
             npm install
             hexo generate
-            ipd -p pinata -d cloudflare -C -O
+            ipd -p ipfs-cluster -d cloudflare -C -O
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
