@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/ppp0.jpeg">
 <meta property="og:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/lan.jpeg">
 <meta property="article:published_time" content="2020-11-11T12:46:28.000Z">
-<meta property="article:modified_time" content="2021-01-20T11:27:47.587Z">
+<meta property="article:modified_time" content="2021-01-23T09:55:12.614Z">
 <meta property="article:author" content="Fledge Shiu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/ppp0.jpeg">
@@ -109,7 +109,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E6%95%85%E4%BA%8B"><span class="toc-number">1.</span> <span class="toc-text">背景故事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-IPv6-%E7%9A%84%E5%B0%8F%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">关于 IPv6 的小介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">环境配置</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E6%95%85%E4%BA%8B"><span class="toc-number">1.</span> <span class="toc-text">背景故事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-IPv6-%E7%9A%84%E5%B0%8F%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">关于 IPv6 的小介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0"><span class="toc-number">5.</span> <span class="toc-text">更新</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -229,6 +229,7 @@
 
 <p><code>br0</code> 填入你的局域网接口。</p>
 <p>这时你的局域网设备应该也能分配到全球唯一的 IPv6 地址了。</p>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><p>DHCPv6C 在我这里的环境里会会出现一个不知为什么的 Bug，体现就是 IPV6 的在成功运行一段时间后断开。我切换到了系统自带的 DHCPCD 上，具体的配置方法可以参见 <a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/IPv6#With_dhcpcd">Archi Wiki</a>。</p>
 
   </div>
 </article>
@@ -252,7 +253,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E6%95%85%E4%BA%8B"><span class="toc-number">1.</span> <span class="toc-text">背景故事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-IPv6-%E7%9A%84%E5%B0%8F%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">关于 IPv6 的小介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">环境配置</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E6%95%85%E4%BA%8B"><span class="toc-number">1.</span> <span class="toc-text">背景故事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-IPv6-%E7%9A%84%E5%B0%8F%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">关于 IPv6 的小介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0"><span class="toc-number">5.</span> <span class="toc-text">更新</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
