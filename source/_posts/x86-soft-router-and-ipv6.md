@@ -247,3 +247,7 @@ dhcp-range=::,constructor:br0,ra-only,slaac
 `br0` 填入你的局域网接口。
 
 这时你的局域网设备应该也能分配到全球唯一的 IPv6 地址了。
+
+## 更新
+
+DHCPv6C 在我这里的环境里会会出现一个不知为什么的 Bug，体现就是 IPV6 的在成功运行一段时间后断开。我切换到了系统自带的 DHCPCD 上，具体的配置方法可以参见 [Archi Wiki](https://wiki.archlinux.org/index.php/IPv6#With_dhcpcd)。
