@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="什么是 IPFS？ 星际文件系统（InterPlanetary File System，缩写IPFS）是一个旨在创建持久且分布式存储和共享文件的网络传输协议。它是一种内容可寻址的对等超媒体分发协议。在IPFS网络中的节点将构成一个分布式文件系统。它是一个开放源代码项目，自2014年开始由Protocol Labs在开源社区的帮助下发展。其最初由Juan Benet设计。  用最简单的话来说 IPF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IPFS 官方中文 Wikipedia 使用指南">
+<meta property="og:url" content="http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/index.html">
+<meta property="og:site_name" content="曳东搬西">
+<meta property="og:description" content="什么是 IPFS？ 星际文件系统（InterPlanetary File System，缩写IPFS）是一个旨在创建持久且分布式存储和共享文件的网络传输协议。它是一种内容可寻址的对等超媒体分发协议。在IPFS网络中的节点将构成一个分布式文件系统。它是一个开放源代码项目，自2014年开始由Protocol Labs在开源社区的帮助下发展。其最初由Juan Benet设计。  用最简单的话来说 IPF">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-25T10:13:43.000Z">
+<meta property="article:modified_time" content="2021-03-25T03:58:48.735Z">
+<meta property="article:author" content="Fledge Shiu">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>IPFS 官方中文 Wikipedia 使用指南</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="曳东搬西" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2021/02/22/how-to-use-wikipedia-on-ipfs/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&text=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&title=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&is_video=false&description=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=IPFS 官方中文 Wikipedia 使用指南&body=Check out this article: http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&title=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&title=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&title=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&title=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&name=IPFS 官方中文 Wikipedia 使用指南&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&t=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-IPFS%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">什么是 IPFS？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Distributed-Wikipedia-Mirror%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">什么是 Distributed Wikipedia Mirror？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">如何使用？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AC%E5%85%B1%E7%BD%91%E5%85%B3"><span class="toc-number">3.1.</span> <span class="toc-text">公共网关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-CID-%E8%AE%BF%E9%97%AE%E9%95%9C%E5%83%8F"><span class="toc-number">3.1.1.</span> <span class="toc-text">使用 CID 访问镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-DNSLink-%E5%9C%B0%E5%9D%80%E8%AE%BF%E9%97%AE"><span class="toc-number">3.1.2.</span> <span class="toc-text">使用 DNSLink 地址访问</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Brave-%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">3.2.</span> <span class="toc-text">Brave 浏览器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-CID-%E8%AE%BF%E9%97%AE%E9%95%9C%E5%83%8F-1"><span class="toc-number">3.2.1.</span> <span class="toc-text">使用 CID 访问镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-DNSLink-%E5%9C%B0%E5%9D%80%E8%AE%BF%E9%97%AE-1"><span class="toc-number">3.2.2.</span> <span class="toc-text">使用 DNSLink 地址访问</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPFS-Desktop"><span class="toc-number">3.3.</span> <span class="toc-text">IPFS Desktop</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-CID-%E8%AE%BF%E9%97%AE%E9%95%9C%E5%83%8F-2"><span class="toc-number">3.3.1.</span> <span class="toc-text">使用 CID 访问镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-DNSLink-%E5%9C%B0%E5%9D%80%E8%AE%BF%E9%97%AE-2"><span class="toc-number">3.3.2.</span> <span class="toc-text">使用 DNSLink 地址访问</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        IPFS 官方中文 Wikipedia 使用指南
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Fledge Shiu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-03-25T10:13:43.000Z" itemprop="datePublished">2021-03-25</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="什么是-IPFS？"><a href="#什么是-IPFS？" class="headerlink" title="什么是 IPFS？"></a>什么是 IPFS？</h2><blockquote>
+<p><strong>星际文件系统</strong>（<strong>InterPlanetary File System</strong>，缩写<strong>IPFS</strong>）是一个旨在创建持久且分布式存储和共享文件的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE">网络传输协议</a>。它是一种<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=%E5%86%85%E5%AE%B9%E5%8F%AF%E5%AF%BB%E5%9D%80&action=edit&redlink=1">内容可寻址</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E7%AD%89%E7%B6%B2%E8%B7%AF">对等</a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%B6%85%E5%AA%92%E9%AB%94">超媒体</a>分发协议。在IPFS网络中的节点将构成一个<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%9B%86%E7%BE%A4%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F">分布式文件系统</a>。它是一个<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BC%80%E6%94%BE%E6%BA%90%E4%BB%A3%E7%A0%81">开放源代码</a>项目，自2014年开始由<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=Protocol_Labs&action=edit&redlink=1">Protocol Labs</a>在开源社区的帮助下发展。其最初由<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=Juan_Benet&action=edit&redlink=1">Juan Benet</a>设计。</p>
+</blockquote>
+<p>用最简单的话来说 IPFS 是个 P2P网络，和我们日常可能会使用的 BT 下载的原理类似，但是 IPFS 相比于 BT 来说做了非常多的改进，使得 IPFS 的性能和扩展性都有很大的提升。</p>
+<p>在 IPFS 网络中每一个文件都有一个独特的 CID，当你把一个文件放入 IPFS 网络中，其他的用户就可以通过 CID 来获取到这个文件而不必考虑这个文件存放在何处。此外任何用户可以选择 pin 住一个文件的 CID，从而帮助 IPFS 网络长期的保存某个文件。</p>
+<h2 id="什么是-Distributed-Wikipedia-Mirror？"><a href="#什么是-Distributed-Wikipedia-Mirror？" class="headerlink" title="什么是 Distributed Wikipedia Mirror？"></a>什么是 Distributed Wikipedia Mirror？</h2><p><a target="_blank" rel="noopener" href="https://github.com/ipfs/distributed-wikipedia-mirror">Distributed Wikipedia Mirror</a> 是 IPFS 官方团队维护的一个项目。这个项目旨在于将 Wikipedia 带入 IPFS 网络，以及最终构建出一个纯分布式的 Wikipedia。目前该项目已经提供了：英语、土耳其语、缅甸语和中文的 Wikipedia 镜像。</p>
+<h2 id="如何使用？"><a href="#如何使用？" class="headerlink" title="如何使用？"></a>如何使用？</h2><p>本文将介绍如何使用中文版的 Wikipedia IPFS镜像。</p>
+<p>镜像的地址为:</p>
+<ul>
+<li>DNSLink: <code>zh.wikipedia-on-ipfs.org</code></li>
+<li>CID: <code>bafybeiazgazbrj6qprr4y5hx277u4g2r5nzgo3jnxkhqx56doxdqrzms6y</code></li>
+</ul>
+<p><strong>请注意本项目的 CID 地址会随着分发的 Wikipedia 镜像版本更新而改变，你可以通过访问<a target="_blank" rel="noopener" href="https://github.com/ipfs/distributed-wikipedia-mirror/blob/main/snapshot-hashes.yml">此地址</a>或者使用 <code>ipfs name resolve zh.wikipedia-on-ipfs.org</code> 获取到最新的 CID</strong></p>
+<p>我接下来会介绍3种不同的方式来访问本镜像。</p>
+<hr>
+<h3 id="公共网关"><a href="#公共网关" class="headerlink" title="公共网关"></a>公共网关</h3><p>公共网关是目前访问 IPFS 网络上内容最简单的方式，但这个也是最容易被封锁的方式。我将以官方的网关为例来演示如何使用公共网关来访问 IPFS 网络上的内容。</p>
+<p><strong>官方公共网关地址: <code>https://ipfs.io</code></strong></p>
+<h4 id="使用-CID-访问镜像"><a href="#使用-CID-访问镜像" class="headerlink" title="使用 CID 访问镜像"></a>使用 CID 访问镜像</h4><p>如果你决定使用 CID 地址来访问镜像的话，你需要在浏览器地址栏按照如下格式输入:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ipfs.io/ipfs/&lt;CID&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在我们的例子里就是：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ipfs.io/ipfs/bafybeiazgazbrj6qprr4y5hx277u4g2r5nzgo3jnxkhqx56doxdqrzms6y</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用-DNSLink-地址访问"><a href="#使用-DNSLink-地址访问" class="headerlink" title="使用 DNSLink 地址访问"></a>使用 DNSLink 地址访问</h4><p>如果你决定使用 DNSLink 地址来访问镜像的话，你需要在浏览器地址栏按照如下格式输入:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ipfs.io/ipns/&lt;DNSLink&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在我们的例子里就是：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ipfs.io/ipns/zh.wikipedia-on-ipfs.org</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Brave-浏览器"><a href="#Brave-浏览器" class="headerlink" title="Brave 浏览器"></a>Brave 浏览器</h3><p>如果你在使用最新版的 <a target="_blank" rel="noopener" href="https://brave.com/">Brave 浏览器</a>，你可以直接使用 Brave 内置的 IPFS 节点来访问 IPFS 网络上的内容。你在第一次使用 Brave 浏览器访问 IPFS 内容时，Brave 浏览器可能会询问你是否要启用本地 IPFS 节点，建议选择启用，如果没有启用，Brave 会自动使用公共网关来访问 IPFS 网络上的内容。此外你可以通过 Brave 设置页面中 IPFS 相关的选项和内置的 IPFS-Companion 插件中的选项来调整 IPFS 节点类型。</p>
+<h4 id="使用-CID-访问镜像-1"><a href="#使用-CID-访问镜像-1" class="headerlink" title="使用 CID 访问镜像"></a>使用 CID 访问镜像</h4><p>如果你决定使用 CID 地址来访问镜像的话，你需要在浏览器地址栏按照如下格式输入:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipfs://&lt;CID&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在我们的例子里就是：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipfs://bafybeiazgazbrj6qprr4y5hx277u4g2r5nzgo3jnxkhqx56doxdqrzms6y</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用-DNSLink-地址访问-1"><a href="#使用-DNSLink-地址访问-1" class="headerlink" title="使用 DNSLink 地址访问"></a>使用 DNSLink 地址访问</h4><p>如果你决定使用 DNSLink 地址来访问镜像的话，你需要在浏览器地址栏按照如下格式输入:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipns://&lt;DNSLink&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在我们的例子里就是：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipns://zh.wikipedia-on-ipfs.org</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="IPFS-Desktop"><a href="#IPFS-Desktop" class="headerlink" title="IPFS Desktop"></a>IPFS Desktop</h3><p>IPFS Desktop 对于是目前普通用户使用本地 IPFS 最容易的方法，你可以在<a target="_blank" rel="noopener" href="https://github.com/ipfs-shipyard/ipfs-desktop/releases/latest">这里</a>下载最新版的 IPFS Desktop。在启动成功之后， IPFS-Dekstop 会默认在你本地地址的 <code>8080</code> 端口启动一个网关服务器，之后我们就可以使用这个本地的网关服务来访问 IPFS 网络上的内容了。</p>
+<p>当然你可以通过修改 IPFS-Desktop 中的 <code>Gateway</code> 项，来修改默认的端口地址。</p>
+<h4 id="使用-CID-访问镜像-2"><a href="#使用-CID-访问镜像-2" class="headerlink" title="使用 CID 访问镜像"></a>使用 CID 访问镜像</h4><p>如果你决定使用 CID 地址来访问镜像的话，你需要在浏览器地址栏按照如下格式输入:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:&lt;port&gt;/ipfs/&lt;CID&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在我们的例子里就是：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:8080/ipfs/bafybeiazgazbrj6qprr4y5hx277u4g2r5nzgo3jnxkhqx56doxdqrzms6y</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用-DNSLink-地址访问-2"><a href="#使用-DNSLink-地址访问-2" class="headerlink" title="使用 DNSLink 地址访问"></a>使用 DNSLink 地址访问</h4><p>如果你决定使用 DNSLink 地址来访问镜像的话，你需要在浏览器地址栏按照如下格式输入:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:&lt;port&gt;/ipns/&lt;DNSLink&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在我们的例子里就是：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:8080/ipns/zh.wikipedia-on-ipfs.org</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-IPFS%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">什么是 IPFS？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Distributed-Wikipedia-Mirror%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">什么是 Distributed Wikipedia Mirror？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">如何使用？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AC%E5%85%B1%E7%BD%91%E5%85%B3"><span class="toc-number">3.1.</span> <span class="toc-text">公共网关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-CID-%E8%AE%BF%E9%97%AE%E9%95%9C%E5%83%8F"><span class="toc-number">3.1.1.</span> <span class="toc-text">使用 CID 访问镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-DNSLink-%E5%9C%B0%E5%9D%80%E8%AE%BF%E9%97%AE"><span class="toc-number">3.1.2.</span> <span class="toc-text">使用 DNSLink 地址访问</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Brave-%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">3.2.</span> <span class="toc-text">Brave 浏览器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-CID-%E8%AE%BF%E9%97%AE%E9%95%9C%E5%83%8F-1"><span class="toc-number">3.2.1.</span> <span class="toc-text">使用 CID 访问镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-DNSLink-%E5%9C%B0%E5%9D%80%E8%AE%BF%E9%97%AE-1"><span class="toc-number">3.2.2.</span> <span class="toc-text">使用 DNSLink 地址访问</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPFS-Desktop"><span class="toc-number">3.3.</span> <span class="toc-text">IPFS Desktop</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-CID-%E8%AE%BF%E9%97%AE%E9%95%9C%E5%83%8F-2"><span class="toc-number">3.3.1.</span> <span class="toc-text">使用 CID 访问镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-DNSLink-%E5%9C%B0%E5%9D%80%E8%AE%BF%E9%97%AE-2"><span class="toc-number">3.3.2.</span> <span class="toc-text">使用 DNSLink 地址访问</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&text=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&title=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&is_video=false&description=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=IPFS 官方中文 Wikipedia 使用指南&body=Check out this article: http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&title=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&title=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&title=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&title=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&name=IPFS 官方中文 Wikipedia 使用指南&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2021/03/25/offical-wikipedia-ipfs-mirror-guide/&t=IPFS 官方中文 Wikipedia 使用指南"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Fledge Shiu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
