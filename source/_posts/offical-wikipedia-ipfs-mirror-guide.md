@@ -8,7 +8,7 @@ tags:
 
 > **星际文件系统**（**InterPlanetary File System**，缩写**IPFS**）是一个旨在创建持久且分布式存储和共享文件的[网络传输协议](https://zh.wikipedia.org/wiki/网络传输协议)。它是一种[内容可寻址](https://zh.wikipedia.org/w/index.php?title=内容可寻址&action=edit&redlink=1)的[对等](https://zh.wikipedia.org/wiki/對等網路)[超媒体](https://zh.wikipedia.org/wiki/超媒體)分发协议。在IPFS网络中的节点将构成一个[分布式文件系统](https://zh.wikipedia.org/wiki/集群文件系统)。它是一个[开放源代码](https://zh.wikipedia.org/wiki/开放源代码)项目，自2014年开始由[Protocol Labs](https://zh.wikipedia.org/w/index.php?title=Protocol_Labs&action=edit&redlink=1)在开源社区的帮助下发展。其最初由[Juan Benet](https://zh.wikipedia.org/w/index.php?title=Juan_Benet&action=edit&redlink=1)设计。
 
-用最简单的话来说 IPFS 是个 P2P网络，和我们日常可能会使用的 BT 下载的原理类似，但是 IPFS 相比于 BT 来说做了非常多的改进，使得 IPFS 的性能和扩展性都有很大的提升。
+用最简单的话来说 IPFS 是个 P2P 网络，和我们日常可能会使用的 BT 下载的原理类似，但是 IPFS 相比于 BT 来说做了非常多的改进，使得 IPFS 的性能和扩展性都有很大的提升。
 
 在 IPFS 网络中每一个文件都有一个独特的 CID，当你把一个文件放入 IPFS 网络中，其他的用户就可以通过 CID 来获取到这个文件而不必考虑这个文件存放在何处。此外任何用户可以选择 pin 住一个文件的 CID，从而帮助 IPFS 网络长期的保存某个文件。
 
