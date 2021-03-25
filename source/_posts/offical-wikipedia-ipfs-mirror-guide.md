@@ -14,18 +14,18 @@ tags:
 
  ## 什么是 Distributed Wikipedia Mirror？
 
-[Distributed Wikipedia Mirror](https://github.com/ipfs/distributed-wikipedia-mirror) 是 IPFS 官方团队维护的一个项目。这个项目旨在于将 Wikipedia 带入 IPFS 网络，以及最终构建出一个纯分布式的 Wikipedia。目前该项目已经提供了：英语、土耳其语、缅甸语和中文的 Wikipedia 镜像。
+[Distributed Wikipedia Mirror](https://github.com/ipfs/distributed-wikipedia-mirror) 是 IPFS 官方团队维护的一个项目。这个项目旨在将 Wikipedia 带入 IPFS 网络，以及最终构建出一个纯分布式的 Wikipedia。目前该项目已经提供了：英语、土耳其语、缅甸语和中文的 Wikipedia 镜像。
 
 ## 如何使用？
 
-本文将介绍如何使用中文版的 Wikipedia IPFS镜像。
+本文将介绍如何使用中文版的 Wikipedia IPFS 镜像。
 
 镜像的地址为:
 
 - DNSLink: `zh.wikipedia-on-ipfs.org`
 - CID: `bafybeiazgazbrj6qprr4y5hx277u4g2r5nzgo3jnxkhqx56doxdqrzms6y`
 
-**请注意本项目的 CID 地址会随着分发的 Wikipedia 镜像版本更新而改变，你可以通过访问[此地址](https://github.com/ipfs/distributed-wikipedia-mirror/blob/main/snapshot-hashes.yml)或者使用 `ipfs name resolve zh.wikipedia-on-ipfs.org` 获取到最新的 CID**
+**请注意本项目的 CID 地址会随着分发的 Wikipedia 镜像版本更新而改变，你可以通过访问[此地址](https://github.com/ipfs/distributed-wikipedia-mirror/blob/main/snapshot-hashes.yml)或者使用 `ipfs name resolve zh.wikipedia-on-ipfs.org` 获取到最新的 CID** 。
 
 我接下来会介绍3种不同的方式来访问本镜像。
 
@@ -33,7 +33,7 @@ tags:
 
 ### 公共网关
 
-公共网关是目前访问 IPFS 网络上内容最简单的方式，但这个也是最容易被封锁的方式。我将以官方的网关为例来演示如何使用公共网关来访问 IPFS 网络上的内容。
+公共网关是目前访问 IPFS 网络上内容最简单的方式，但这也是最容易被封锁的方式。我将以官方的网关为例来演示如何使用公共网关来访问 IPFS 网络上的内容。
 
 **官方公共网关地址: `https://ipfs.io`**
 
