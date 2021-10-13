@@ -190,6 +190,8 @@ id-assoc pd 0 {
 
 因为我的 ISP 分配的是个 `/60` 的网段，所以 `sla-len` 的值是 `4`，我建议大家可以先填成 `0`，然后通过运行：`dhcp6c -f -D ppp0` 命令，观察你的 ISP 分配的网段大小，然后再修改对应的值。
 
+另外我们为了要使用Prefix delegation，要给你的防火墙[放行546/udp端口](https://www.iit-training.com/blog/2013/02/ipv6-prefix-delegation-and-firewall-rules)，这一部分放行请按照你使用的防火墙软件自行决定。
+
 这里非常感谢 Rio 提供的一个新的现代化的 DHCP6c System Service 用来替换自带的 `wide-dhcpv6-client.service` 。
 
 添加到 `/etc/systemd/system/dhcp6c.service`。
@@ -247,7 +249,3 @@ dhcp-range=::,constructor:br0,ra-only,slaac
 `br0` 填入你的局域网接口。
 
 这时你的局域网设备应该也能分配到全球唯一的 IPv6 地址了。
-
-## 更新
-
-DHCPv6C 在我这里的环境里会会出现一个不知为什么的 Bug，体现就是 IPV6 的在成功运行一段时间后断开。我切换到了系统自带的 DHCPCD 上，具体的配置方法可以参见 [Archi Wiki](https://wiki.archlinux.org/index.php/IPv6#With_dhcpcd)。
