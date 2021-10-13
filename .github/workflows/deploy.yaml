@@ -37,7 +37,7 @@ jobs:
             npm install hexo-cli -g
             npm install
             hexo generate
-            ipd -p ipfs-cluster -d cloudflare -C -O
+      #ipd -p ipfs-cluster -d cloudflare -C -O
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
