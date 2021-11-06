@@ -179,16 +179,11 @@ id-assoc pd 0 {
   # use the interface connected to your LAN
   prefix-interface br0 {
     sla-id 1;
-    sla-len 4;
   };
 };
 ```
 
-这段配置也是来自 [Archi Wiki](https://wiki.archlinux.org/index.php/IPv6_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))，其中的 `ppp0` 应该是你广域网的接口，而 `br0` 应该是你局域网的接口，关于 `sla-len`的长度有个注释需要注意：
-
-> **注意：** `sla-len` 应设置为满足 `(WAN-prefix) + (sla-len) = 64` 的值。这里示范的情况是针对一个长度 `/56` 的前缀，56+8=64。对于前缀长度 `/64` 的网络，`sla-len` 应为 `0`。
-
-因为我的 ISP 分配的是个 `/60` 的网段，所以 `sla-len` 的值是 `4`，我建议大家可以先填成 `0`，然后通过运行：`dhcp6c -f -D ppp0` 命令，观察你的 ISP 分配的网段大小，然后再修改对应的值。
+这段配置来自 [Github](https://github.com/jinmei/wide-dhcpv6/blob/master/dhcp6c.conf.sample)，其中的 `ppp0` 应该是你广域网的接口，而 `br0` 应该是你局域网的接口。
 
 另外我们为了要使用Prefix delegation，要给你的防火墙[放行546/udp端口](https://www.iit-training.com/blog/2013/02/ipv6-prefix-delegation-and-firewall-rules)，这一部分放行请按照你使用的防火墙软件自行决定。
 
