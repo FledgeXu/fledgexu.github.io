@@ -5,18 +5,18 @@ on:
     branches:
       - main
     paths:
-      - 'source/_posts/**'
+      - 'source/**'
       - '.github/**'
 jobs:
   deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta
+      - uses: actions/setup-node@v3
         with:
-            node-version: '15'
+            node-version: 'lts/*'
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
             path: node_modules
             key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
@@ -33,11 +33,11 @@ jobs:
         run: |
             git submodule init
             git submodule update
-            npm install ipfs-deploy -g
+            # npm install ipfs-deploy -g
             npm install hexo-cli -g
             npm install
             hexo generate
-      #ipd -p ipfs-cluster -d cloudflare -C -O
+            # ipd -p ipfs-cluster -d cloudflare -C -O
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
