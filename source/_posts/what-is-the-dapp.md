@@ -8,7 +8,7 @@ DApp 也就是「Decentralized Application」的简称，按照很多营销号�
 
 DApp 其实指的不是一个单一的技术，它是一系列技术的综合体，整体架构可以用下图来表示。
 
-![](dapp_diagram.jpg)
+![](./dapp_diagram.jpg)
 
 在这张图中，展现了一个基于 IPFS 网络的 DApp 的架构。
 

@@ -107,7 +107,7 @@ tags:
 
 ## Check 单要求
 
-![check.png](check.png)
+![check.png](./check.png)
 
 ## 值得注意的点
 

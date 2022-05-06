@@ -33,7 +33,7 @@ $ ipfs name resolve k2k4r8mu68txggqrlfp3zylq5rvabpgdhjz3uop2813at3g7xn3rbc3a
 
 首先说明，这个设计基于一个最理想的情况，也就是所有用户都一直在线且会保存自己的文件，现实世界不一定如此。另外这只是一个初步的设计，肯定会有很多不完善的地方。此外为了简单起见，我们将用户的「回复」也作为「帖子」处理。
 
-![network](network.jpg)
+![network](./network.jpg)
 
 在这个网络中，有两类节点，请注意这里的每个节点都有 IPNS 地址：
 

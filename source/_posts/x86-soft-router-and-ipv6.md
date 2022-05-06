@@ -153,7 +153,7 @@ debug
 
 这里我在末尾添加上了`+ipv6`，请注意加号，其次我还添加上了 `debug`，用于之后使用 `plog` 来 Debug 问题，此时你重新启动 PPPoE，然后输入 `ip addr show ppp0`，观察 `ppp0` 接口应该就能看到分配的 IPv6 地址了，因为我们启用了隐私扩展，所以你能看到有两个 IPv6 地址。
 
-![ppp0](ppp0.jpeg)
+![ppp0](./ppp0.jpeg)
 
 接下来我们需要给内网设备也分配对应的 IPv6 地址。这里我们用到了 Prefix delegation（[前缀代理](https://zh.wikipedia.org/wiki/%E5%89%8D%E7%BC%80%E4%BB%A3%E7%90%86)），简称 PD。简单来说就是我们向我们的上级路由发送 PD 请求，上级路由会分给我们一个前缀长度小于等于64的网段，然后我们就能将个网段划分成一个或者一些 /64 的网段接着向局域网内的设备分配，此时局域网内的设备的上级路由就是我们的网关。
 
@@ -232,7 +232,7 @@ systemctl enable dhcp6c.service
 
 运行成功后，观察你局域网的接口，应该就能看到对应分配的地址了。
 
-![lan](lan.jpeg)
+![lan](./lan.jpeg)
 
 最后需要向局域网设备发送 RA ，使用 slaac 来分配IP地址，这里我们使用了 Dnsmasq，因为 Dnsmasq 是个非常常用的软件，就不多介绍了，在 Dnsmasq 的配置文件里加上:
 
