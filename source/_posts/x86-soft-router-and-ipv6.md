@@ -232,7 +232,7 @@ systemctl enable dhcp6c.service
 
 运行成功后，观察你局域网的接口，应该就能看到对应分配的地址了。
 
-![lan](./lan.jpeg)
+![lan](x86-soft-router-and-ipv6/lan.jpeg)
 
 最后需要向局域网设备发送 RA ，使用 slaac 来分配IP地址，这里我们使用了 Dnsmasq，因为 Dnsmasq 是个非常常用的软件，就不多介绍了，在 Dnsmasq 的配置文件里加上:
 
