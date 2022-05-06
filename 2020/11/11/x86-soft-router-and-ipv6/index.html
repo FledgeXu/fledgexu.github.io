@@ -13,13 +13,13 @@
 <meta property="og:site_name" content="曳东搬西">
 <meta property="og:description" content="背景故事这一次踩坑之旅的起源是一段来自内核恐慌 Telegram 群的关于 IPv6 的讨论，Rio 发了关于他配置 IPv6 时候的踩坑帖子，而我正好一直想把家里软路由的 IPv6 配置起来，就有了这一次经历。这里非常感谢 Rio 和听众群的朋友，没有他们的帮助也就没有这次的经历。 关于 IPv6 的小介绍在开始配置环境之前，我想先做一个关于 IPv6 的小介绍。介绍一下之后会涉及到的一些概念，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/ppp0.jpeg">
-<meta property="og:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/lan.jpeg">
+<meta property="og:image" content="http://blog.otakusaikou.com/ppp0.jpeg">
+<meta property="og:image" content="http://blog.otakusaikou.com/lan.jpeg">
 <meta property="article:published_time" content="2020-11-11T12:46:28.000Z">
-<meta property="article:modified_time" content="2022-05-04T09:06:34.922Z">
+<meta property="article:modified_time" content="2022-05-06T06:41:25.938Z">
 <meta property="article:author" content="Fledge Shiu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/ppp0.jpeg">
+<meta name="twitter:image" content="http://blog.otakusaikou.com/ppp0.jpeg">
     
     
       
@@ -51,7 +51,7 @@
     
 	<!-- mathjax -->
 	
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="曳东搬西" type="application/atom+xml">
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="曳东搬西" type="application/atom+xml">
 </head>
 
 <body class="max-width mx-auto px3 ltr">
@@ -196,8 +196,8 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">noipdefault</span><br><span class="line">defaultroute</span><br><span class="line">replacedefaultroute</span><br><span class="line">hide-password</span><br><span class="line">noauth</span><br><span class="line">persist</span><br><span class="line">persist</span><br><span class="line">maxfail 0</span><br><span class="line">plugin rp-pppoe.so</span><br><span class="line">nic-enp1s0</span><br><span class="line">user &quot;宽带账号&quot;</span><br><span class="line">usepeerdns</span><br><span class="line">+ipv6</span><br><span class="line">debug</span><br></pre></td></tr></table></figure>
 
 <p>这里我在末尾添加上了<code>+ipv6</code>，请注意加号，其次我还添加上了 <code>debug</code>，用于之后使用 <code>plog</code> 来 Debug 问题，此时你重新启动 PPPoE，然后输入 <code>ip addr show ppp0</code>，观察 <code>ppp0</code> 接口应该就能看到分配的 IPv6 地址了，因为我们启用了隐私扩展，所以你能看到有两个 IPv6 地址。</p>
-<p><img src="ppp0.jpeg" alt="ppp0"></p>
-<p>接下来我们需要给内网设备也分配对应的 IPv6 地址。这里我们用到了 Prefix delegation（<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%89%8D%E7%BC%80%E4%BB%A3%E7%90%86">前缀代理</a>），简称 PD。简单来说就是我们向我们的上级路由发送 PD 请求，上级路由会分给我们一个前缀长度小于等于64的网段，然后我们就能将个网段划分成一个或者一些 /64 的网段接着向局域网内的设备分配，此时局域网内的设备的上级路由就是我们的网关。</p>
+<p><img src="/ppp0.jpeg" alt="ppp0"></p>
+<p>接下来我们需要给内网设备也分配对应的 IPv6 地址。这里我们用到了 Prefix delegation（<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%89%8D%E7%BC%80%E4%BB%A3%E7%90%86">前缀代理</a>），简称 PD。简单来说就是我们向我们的上级路由发送 PD 请求，上级路由会分给我们一个前缀长度小于等于64的网段，然后我们就能将个网段划分成一个或者一些 &#x2F;64 的网段接着向局域网内的设备分配，此时局域网内的设备的上级路由就是我们的网关。</p>
 <p>这里有个需要注意的地方，我们向局域网设备分配的 IP 地址也是公网地址，而不是 IPv4 时代的私有地址，不过因为上级路由是我们的网关，所以这些设备其实是在一个局域网内，并且因为这些地址都是公网地址，所以我们不需要做 NAT 转化的操作。</p>
 <p>为了实现这个功能，我们需要使用 <code>wide-dhcpv6-client</code>。</p>
 <p>首先安装：</p>
@@ -208,7 +208,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">interface ppp0 &#123;</span><br><span class="line">  send ia-pd 0;</span><br><span class="line">&#125;;</span><br><span class="line">id-assoc pd 0 &#123;</span><br><span class="line">  # use the interface connected to your LAN</span><br><span class="line">  prefix-interface br0 &#123;</span><br><span class="line">    sla-id 1;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>这段配置来自 <a target="_blank" rel="noopener" href="https://github.com/jinmei/wide-dhcpv6/blob/master/dhcp6c.conf.sample">Github</a>，其中的 <code>ppp0</code> 应该是你广域网的接口，而 <code>br0</code> 应该是你局域网的接口。</p>
-<p>另外我们为了要使用Prefix delegation，要给你的防火墙<a target="_blank" rel="noopener" href="https://www.iit-training.com/blog/2013/02/ipv6-prefix-delegation-and-firewall-rules">放行546/udp端口</a>，这一部分放行请按照你使用的防火墙软件自行决定。</p>
+<p>另外我们为了要使用Prefix delegation，要给你的防火墙<a target="_blank" rel="noopener" href="https://www.iit-training.com/blog/2013/02/ipv6-prefix-delegation-and-firewall-rules">放行546&#x2F;udp端口</a>，这一部分放行请按照你使用的防火墙软件自行决定。</p>
 <p>这里非常感谢 Rio 提供的一个新的现代化的 DHCP6c System Service 用来替换自带的 <code>wide-dhcpv6-client.service</code> 。</p>
 <p>添加到 <code>/etc/systemd/system/dhcp6c.service</code>。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=WIDE DHCPv6 Client</span><br><span class="line">Wants=network-online.target</span><br><span class="line">After=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">ExecStart=/usr/sbin/dhcp6c -f ppp0</span><br><span class="line">ExecReload=/bin/kill -HUP $MAINPID</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=3</span><br><span class="line">NoNewPrivileges=yes</span><br><span class="line">PrivateTmp=yes</span><br><span class="line">ProtectHome=yes</span><br><span class="line">ProtectSystem=strict</span><br><span class="line">ReadWritePaths=/run/ /var/log/</span><br><span class="line">ProtectKernelTunables=yes</span><br><span class="line">ProtectControlGroups=yes</span><br><span class="line">SystemCallFilter=~@mount</span><br><span class="line">SystemCallArchitectures=native</span><br><span class="line">LockPersonality=yes</span><br><span class="line">MemoryDenyWriteExecute=yes</span><br><span class="line">RestrictRealtime=yes</span><br><span class="line">RemoveIPC=yes</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
@@ -218,7 +218,7 @@
 
 <p>你就可以通过 <code>dhcp6c.service</code> 来控制 <code>wide-dhcpv6-client</code> 了。</p>
 <p>运行成功后，观察你局域网的接口，应该就能看到对应分配的地址了。</p>
-<p><img src="lan.jpeg" alt="lan"></p>
+<p><img src="/lan.jpeg" alt="lan"></p>
 <p>最后需要向局域网设备发送 RA ，使用 slaac 来分配IP地址，这里我们使用了 Dnsmasq，因为 Dnsmasq 是个非常常用的软件，就不多介绍了，在 Dnsmasq 的配置文件里加上:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">enable-ra</span><br><span class="line">dhcp-range=::,constructor:br0,ra-only,slaac</span><br></pre></td></tr></table></figure>
 

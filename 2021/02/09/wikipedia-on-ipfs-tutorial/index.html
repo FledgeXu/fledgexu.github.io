@@ -14,7 +14,7 @@
 <meta property="og:description" content="原理在 IPFS 上部署 Wikipedia 的原理相当的简单，主要利用了 Kiwix 提供的离线版 Wikipedia 文件，将其解压并转换成静态文件之后就可以放到 IPFS 上了。这里我们主要依靠了 IPFS 团队提供的 distributed-wikipedia-mirror 项目以及 OpenZIM 团队提供的 ZIM-Tools 工具，同样也非常感谢 IPFS 和 OpenZIM 团队在">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-09T17:33:19.000Z">
-<meta property="article:modified_time" content="2022-05-04T09:06:34.922Z">
+<meta property="article:modified_time" content="2022-05-06T06:41:25.938Z">
 <meta property="article:author" content="Fledge Shiu">
 <meta name="twitter:card" content="summary">
     
@@ -48,7 +48,7 @@
     
 	<!-- mathjax -->
 	
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="曳东搬西" type="application/atom+xml">
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="曳东搬西" type="application/atom+xml">
 </head>
 
 <body class="max-width mx-auto px3 ltr">
@@ -165,7 +165,7 @@
 
 <p>来构建配置环境。</p>
 <p>因为我们之后需要用到 <a target="_blank" rel="noopener" href="https://github.com/openzim/zim-tools">ZIM-Tools</a> 来解压我们下载完成的 ZIM 文件，所以我们预先下载好 ZIM-Tools，这里我们以 2.1.0 为例，你可以在这里找到 ZIM-Tools 预编译的二进制包。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.openzim.org/release/zim-tools/zim-tools_linux-x86_64-2.1.0.tar.gz</span><br><span class="line">tar -xf zim-tools_linux-x86_64-2.1.0.tar.gz</span><br><span class="line">mv zim-tools_linux-x86_64-2.1.0 zim</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.openzim.org/release/zim-tools/zim-tools_linux-x86_64-2.1.0.tar.gz</span><br><span class="line">tar -xf zim-tools_linux-x86_64-2.1.0.tar.gz</span><br><span class="line"><span class="built_in">mv</span> zim-tools_linux-x86_64-2.1.0 zim</span><br></pre></td></tr></table></figure>
 
 <p>接下来需要下载 ZIM 文件，ZIM 文件是一种离线版 Wikipedia 保存格式。</p>
 <p> <a target="_blank" rel="noopener" href="https://github.com/ipfs/distributed-wikipedia-mirror">distributed-wikipedia-mirror</a> 项目默认提供了一种直接下载的方式，你可以输入:</p>
@@ -177,7 +177,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.kiwix.org/zim/wikipedia_zh_all_maxi.zim.torrent </span><br><span class="line">aria2c wikipedia_zh_all_maxi.zim.torrent -d snapshots</span><br></pre></td></tr></table></figure>
 
 <p>在下载完毕之后我们需要解压 zim 文件，在我们的例子里就是</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir tmp</span><br><span class="line">./zim/zimdump dump ./snapshots/wikipedia_zh_all_maxi_2021-01.zim --dir ./tmp/wikipedia_zh_all_maxi_2021-01</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> tmp</span><br><span class="line">./zim/zimdump dump ./snapshots/wikipedia_zh_all_maxi_2021-01.zim --<span class="built_in">dir</span> ./tmp/wikipedia_zh_all_maxi_2021-01</span><br></pre></td></tr></table></figure>
 
 <p>这个解压过程会很漫长，并且会消耗大量的磁盘空间，以我的体验来说，zim文件的压缩比大概是 4:1，也就是 1G 的 ZIM 文件大概会解压出 4G 的原始文件。</p>
 <p>在解压完毕之后，我们还需要稍微处理一下解压好的文件，这样才能让用户正常的浏览网页。</p>
