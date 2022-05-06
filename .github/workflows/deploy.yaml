@@ -1,45 +1,30 @@
-name: github pages
+name: Pages
 
 on:
   push:
     branches:
-      - main
-    paths:
-      - 'source/**'
-      - '.github/**'
+      - main  # default branch
+
 jobs:
-  deploy:
+  pages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2
         with:
-            node-version: 'lts/*'
-      - name: Cache node modules
+          node-version: '16'
+      - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
-            path: node_modules
-            key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
-      - name: Build 
-        env:
-            IPFS_DEPLOY_PINATA__API_KEY: ${{ secrets.IPFS_DEPLOY_PINATA__API_KEY }}
-            IPFS_DEPLOY_PINATA__SECRET_API_KEY: ${{ secrets.IPFS_DEPLOY_PINATA__SECRET_API_KEY }}
-            IPFS_DEPLOY_CLOUDFLARE__API_TOKEN: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__API_TOKEN }}
-            IPFS_DEPLOY_CLOUDFLARE__ZONE: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__ZONE }}
-            IPFS_DEPLOY_CLOUDFLARE__RECORD: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__RECORD }}
-            IPFS_DEPLOY_IPFS_CLUSTER__HOST: ${{ secrets.IPFS_DEPLOY_IPFS_CLUSTER__HOST }}
-            IPFS_DEPLOY_IPFS_CLUSTER__USERNAME: ${{ secrets.IPFS_DEPLOY_IPFS_CLUSTER__USERNAME }}
-            IPFS_DEPLOY_IPFS_CLUSTER__PASSWORD: ${{ secrets.IPFS_DEPLOY_IPFS_CLUSTER__PASSWORD }}
-        run: |
-            git submodule init
-            git submodule update
-            # npm install ipfs-deploy -g
-            npm install hexo-cli -g
-            npm install
-            hexo version
-            hexo clean
-            hexo generate
-            # ipd -p ipfs-cluster -d cloudflare -C -O
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
