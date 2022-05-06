@@ -36,6 +36,7 @@ jobs:
             # npm install ipfs-deploy -g
             npm install hexo-cli -g
             npm install
+            hexo version
             hexo generate
             # ipd -p ipfs-cluster -d cloudflare -C -O
       - name: Deploy
