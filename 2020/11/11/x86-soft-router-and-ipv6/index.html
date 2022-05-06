@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="背景故事这一次踩坑之旅的起源是一段来自内核恐慌 Telegram 群的关于 IPv6 的讨论，Rio 发了关于他配置 IPv6 时候的踩坑帖子，而我正好一直想把家里软路由的 IPv6 配置起来，就有了这一次经历。这里非常感谢 Rio 和听众群的朋友，没有他们的帮助也就没有这次的经历。 关于 IPv6 的小介绍在开始配置环境之前，我想先做一个关于 IPv6 的小介绍。介绍一下之后会涉及到的一些概念，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="X86 软路由配置 IPv6 踩坑小记">
+<meta property="og:url" content="http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/index.html">
+<meta property="og:site_name" content="曳东搬西">
+<meta property="og:description" content="背景故事这一次踩坑之旅的起源是一段来自内核恐慌 Telegram 群的关于 IPv6 的讨论，Rio 发了关于他配置 IPv6 时候的踩坑帖子，而我正好一直想把家里软路由的 IPv6 配置起来，就有了这一次经历。这里非常感谢 Rio 和听众群的朋友，没有他们的帮助也就没有这次的经历。 关于 IPv6 的小介绍在开始配置环境之前，我想先做一个关于 IPv6 的小介绍。介绍一下之后会涉及到的一些概念，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.otakusaikou.com/ppp0.jpeg">
+<meta property="og:image" content="http://blog.otakusaikou.com/lan.jpeg">
+<meta property="article:published_time" content="2020-11-11T12:46:28.000Z">
+<meta property="article:modified_time" content="2022-05-06T07:37:03.481Z">
+<meta property="article:author" content="Fledge Shiu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.otakusaikou.com/ppp0.jpeg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>X86 软路由配置 IPv6 踩坑小记</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="曳东搬西" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/11/19/how-to-become-a-poser/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/11/08/the-world-and-us/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&text=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&is_video=false&description=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=X86 软路由配置 IPv6 踩坑小记&body=Check out this article: http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&name=X86 软路由配置 IPv6 踩坑小记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&t=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E6%95%85%E4%BA%8B"><span class="toc-number">1.</span> <span class="toc-text">背景故事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-IPv6-%E7%9A%84%E5%B0%8F%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">关于 IPv6 的小介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">环境配置</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        X86 软路由配置 IPv6 踩坑小记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Fledge Shiu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-11-11T12:46:28.000Z" itemprop="datePublished">2020-11-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="背景故事"><a href="#背景故事" class="headerlink" title="背景故事"></a>背景故事</h2><p>这一次踩坑之旅的起源是一段来自内核恐慌 Telegram 群的关于 IPv6 的讨论，<a target="_blank" rel="noopener" href="https://twitter.com/RioJot">Rio</a> 发了关于他配置 IPv6 时候的踩坑<a target="_blank" rel="noopener" href="https://www.v2ex.com/t/722411">帖子</a>，而我正好一直想把家里软路由的 IPv6 配置起来，就有了这一次经历。这里非常感谢 Rio 和听众群的朋友，没有他们的帮助也就没有这次的经历。</p>
+<h2 id="关于-IPv6-的小介绍"><a href="#关于-IPv6-的小介绍" class="headerlink" title="关于 IPv6 的小介绍"></a>关于 IPv6 的小介绍</h2><p>在开始配置环境之前，我想先做一个关于 IPv6 的小介绍。介绍一下之后会涉及到的一些概念，比如：RA，slaac 等。这个介绍不会涉及到 IPv6 整体是怎么工作的，主要介绍一下在 IPv6 设备是如何获取 IPv6 地址的。</p>
+<p>在开始介绍在 IPv6 环境之前，得先介绍一下什么是 RA。RA 也就是：Router Advertisement（路由器通告报文）是一种 ICMPv6 报文，ICMP 也就是我们日常 Ping 命令使用的报文。在 IPv6 点环境中路由发出的 RA 会携带一系列的信息告知设备如何配置自己的 IP 地址。</p>
+<p>在 IPv6 中有多种自动配置 IP 的方式，这里我们只会接触到 slaac 和 DHCPv6，下面有个关于这两种方式区别的解释。</p>
+<blockquote>
+<p><strong>其中“自动配置”根据获取方式，又分为</strong></p>
+<p>▷ 无状态（Stateless）：根据路由通告报文RA（Router Advertisement）包含的prefix前缀信息自动配置IPv6地址，组成方式是Prefix + (EUI64 or 随机)。Stateless也可以称为SLAAC（Stateless address autoconfiguration）</p>
+<p>▷ 有状态（Stateful）：通过DHCPv6方式获得IPv6地址</p>
+<p>——<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1517325">IPv6系列-详解自动分配IPv6地址</a></p>
+</blockquote>
+<p>因为安卓设备只支持 slaac，所以我使用了 slaac 方式配置局域网内设备的IP。</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>我这里使用系统是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Linux version 4.19.0-9-amd64 (debian-kernel@lists.debian.org) (gcc version 8.3.0 (Debian 8.3.0-6)) #1 SMP Debian 4.19.118-2+deb10u1 (2020-06-07)</span><br></pre></td></tr></table></figure>
+
+<p>机器本身是一台四个网口的软路由。</p>
+<p>上网方式是 PPPoE 拨号上网</p>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>首先配置网卡。</p>
+<p><code>/etc/network/interfaces</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">source /etc/network/interfaces.d/*</span><br><span class="line"></span><br><span class="line"># 本地接口</span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line"># 广域网接口</span><br><span class="line">allow-hotplug enp1s0</span><br><span class="line"></span><br><span class="line"># 局域网接口</span><br><span class="line">auto br0</span><br><span class="line">allow-hotplug br0</span><br><span class="line">iface br0 inet static</span><br><span class="line">      address 192.168.2.1</span><br><span class="line">      network 192.168.2.0</span><br><span class="line">      netmask 255.255.255.0</span><br><span class="line">      brocast 192.168.2.255</span><br><span class="line">      bridge-ports enp2s0 enp3s0 enp4s0</span><br><span class="line">      </span><br><span class="line"># PPPoE 接口，由 pppoeconf 自动生成</span><br><span class="line">auto dsl-provider</span><br><span class="line">iface dsl-provider inet ppp</span><br><span class="line">pre-up /bin/ip link set enp1s0 up # line maintained by pppoeconf</span><br><span class="line">provider dsl-provider</span><br><span class="line">iface enp1s0 inet manual</span><br></pre></td></tr></table></figure>
+
+<p>这里是我的的软路由的接口配置，可以看到出口网卡是 enp1s0，我会通过这个网卡进行 PPPoE 拨号上网。这个配置最后的 <code>dsl-provider</code> 是由 pppoeconf 自动生成的，我们之后会讲到。</p>
+<p>请注意，在这里不要配置 DHCP 连接，不然内置的  dhclient 会和之后我们用到的 <code>wide-dhcpv6-client</code> 冲突。</p>
+<p>因为我们是要配置软路由，所以我们需要启用 IPv6 转发。</p>
+<p>在  <code>/etc/sysctl.conf</code> 添加上：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">net.ipv6.conf.all.forwarding=2</span><br><span class="line">net.ipv6.conf.default.forwarding=2</span><br><span class="line"></span><br><span class="line">net.ipv6.conf.all.accept_ra=2</span><br><span class="line">net.ipv6.conf.default.accept_ra=2</span><br><span class="line"></span><br><span class="line">net.ipv6.conf.all.use_tempaddr=2</span><br><span class="line">net.ipv6.conf.default.use_tempaddr=2</span><br></pre></td></tr></table></figure>
+
+<p>我们通过设置: <code>net.ipv6.conf.all.forwarding=2</code> 和 <code>net.ipv6.conf.default.forwarding=2</code> 启用了 IPv6 转发，但是根据注释：</p>
+<blockquote>
+<p>Uncomment the next line to enable packet forwarding for IPv6</p>
+<p>Enabling this option disables Stateless Address Autoconfiguration</p>
+<p>based on Router Advertisements for this host</p>
+</blockquote>
+<p>开启了这个选项之后，系统将不会进行 RA 处理，也就是我们的广域网将不会有 IPv6 地址，所以我们这里手动设置了：<code>net.ipv6.conf.all.accept_ra=2</code> 和 <code>net.ipv6.conf.default.accept_ra=2</code> 来启用 RA 处理。</p>
+<p>最后两行是启用 IPv6 的隐私扩展，具体可以阅读 Arch Wiki 的相关<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/IPv6_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">介绍</a>。</p>
+<p>因为 RA 是 ICMPv6 报文，所以我们要在防火墙上允许 ICMPv6 的通过。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p ipv6-icmp -j ACCEPT</span><br><span class="line">iptables -A FORWARD -p ipv6-icmp -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -p ipv6-icmp -j ACCEPT</span><br><span class="line">ip6tables -A INPUT -p ipv6-icmp -j ACCEPT</span><br><span class="line">ip6tables -A FORWARD -p ipv6-icmp -j ACCEPT</span><br><span class="line">ip6tables -A OUTPUT -p ipv6-icmp -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们来配置 PPPoE 上网，运行:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install pppoeconf</span><br></pre></td></tr></table></figure>
+
+<p>在安装 <code>pppoeconf</code> 的时候会自动安装 <code>pppd</code>，<code>pppoeconf</code> 是个帮助你配置 <code>pppd</code> 的小工具，安装完成后输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pppoeconf</span><br></pre></td></tr></table></figure>
+
+<p>然后按照指示输入你宽带的账号密码，如果其他选项的含义不清楚请选择默认，在配置成功后，你可以通过: <code>poff</code>，<code>pon</code> 和 <code> plog</code>，来关闭、开启 PPoE 以及显示 log。</p>
+<p>但是在默认的情况下，<code>pppoeconf</code> 自动生成的配置文件不会启用 IPv6，我们还需要对配置文件进行一些修改。</p>
+<p>配置文件在 <code>/etc/ppp/peers/</code> 目录下，我这里自动生成的是 <code>dsl-provider</code>。</p>
+<p><code>/etc/ppp/peers/dsl-provider</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">noipdefault</span><br><span class="line">defaultroute</span><br><span class="line">replacedefaultroute</span><br><span class="line">hide-password</span><br><span class="line">noauth</span><br><span class="line">persist</span><br><span class="line">persist</span><br><span class="line">maxfail 0</span><br><span class="line">plugin rp-pppoe.so</span><br><span class="line">nic-enp1s0</span><br><span class="line">user &quot;宽带账号&quot;</span><br><span class="line">usepeerdns</span><br><span class="line">+ipv6</span><br><span class="line">debug</span><br></pre></td></tr></table></figure>
+
+<p>这里我在末尾添加上了<code>+ipv6</code>，请注意加号，其次我还添加上了 <code>debug</code>，用于之后使用 <code>plog</code> 来 Debug 问题，此时你重新启动 PPPoE，然后输入 <code>ip addr show ppp0</code>，观察 <code>ppp0</code> 接口应该就能看到分配的 IPv6 地址了，因为我们启用了隐私扩展，所以你能看到有两个 IPv6 地址。</p>
+<p><img src="/./ppp0.jpeg" alt="ppp0"></p>
+<p>接下来我们需要给内网设备也分配对应的 IPv6 地址。这里我们用到了 Prefix delegation（<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%89%8D%E7%BC%80%E4%BB%A3%E7%90%86">前缀代理</a>），简称 PD。简单来说就是我们向我们的上级路由发送 PD 请求，上级路由会分给我们一个前缀长度小于等于64的网段，然后我们就能将个网段划分成一个或者一些 &#x2F;64 的网段接着向局域网内的设备分配，此时局域网内的设备的上级路由就是我们的网关。</p>
+<p>这里有个需要注意的地方，我们向局域网设备分配的 IP 地址也是公网地址，而不是 IPv4 时代的私有地址，不过因为上级路由是我们的网关，所以这些设备其实是在一个局域网内，并且因为这些地址都是公网地址，所以我们不需要做 NAT 转化的操作。</p>
+<p>为了实现这个功能，我们需要使用 <code>wide-dhcpv6-client</code>。</p>
+<p>首先安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install wide-dhcpv6-client</span><br></pre></td></tr></table></figure>
+
+<p>在安装完成后，我们需要配置 PD。</p>
+<p>编辑：<code>/etc/wide-dhcpv6/dhcp6c.conf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">interface ppp0 &#123;</span><br><span class="line">  send ia-pd 0;</span><br><span class="line">&#125;;</span><br><span class="line">id-assoc pd 0 &#123;</span><br><span class="line">  # use the interface connected to your LAN</span><br><span class="line">  prefix-interface br0 &#123;</span><br><span class="line">    sla-id 1;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这段配置来自 <a target="_blank" rel="noopener" href="https://github.com/jinmei/wide-dhcpv6/blob/master/dhcp6c.conf.sample">Github</a>，其中的 <code>ppp0</code> 应该是你广域网的接口，而 <code>br0</code> 应该是你局域网的接口。</p>
+<p>另外我们为了要使用Prefix delegation，要给你的防火墙<a target="_blank" rel="noopener" href="https://www.iit-training.com/blog/2013/02/ipv6-prefix-delegation-and-firewall-rules">放行546&#x2F;udp端口</a>，这一部分放行请按照你使用的防火墙软件自行决定。</p>
+<p>这里非常感谢 Rio 提供的一个新的现代化的 DHCP6c System Service 用来替换自带的 <code>wide-dhcpv6-client.service</code> 。</p>
+<p>添加到 <code>/etc/systemd/system/dhcp6c.service</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=WIDE DHCPv6 Client</span><br><span class="line">Wants=network-online.target</span><br><span class="line">After=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">ExecStart=/usr/sbin/dhcp6c -f ppp0</span><br><span class="line">ExecReload=/bin/kill -HUP $MAINPID</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=3</span><br><span class="line">NoNewPrivileges=yes</span><br><span class="line">PrivateTmp=yes</span><br><span class="line">ProtectHome=yes</span><br><span class="line">ProtectSystem=strict</span><br><span class="line">ReadWritePaths=/run/ /var/log/</span><br><span class="line">ProtectKernelTunables=yes</span><br><span class="line">ProtectControlGroups=yes</span><br><span class="line">SystemCallFilter=~@mount</span><br><span class="line">SystemCallArchitectures=native</span><br><span class="line">LockPersonality=yes</span><br><span class="line">MemoryDenyWriteExecute=yes</span><br><span class="line">RestrictRealtime=yes</span><br><span class="line">RemoveIPC=yes</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>然后运行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop wide-dhcpv6-client.service</span><br><span class="line">systemctl disable wide-dhcpv6-client.service</span><br><span class="line">systemctl enable dhcp6c.service</span><br></pre></td></tr></table></figure>
+
+<p>你就可以通过 <code>dhcp6c.service</code> 来控制 <code>wide-dhcpv6-client</code> 了。</p>
+<p>运行成功后，观察你局域网的接口，应该就能看到对应分配的地址了。</p>
+<p><img src="/./lan.jpeg" alt="lan"></p>
+<p>最后需要向局域网设备发送 RA ，使用 slaac 来分配IP地址，这里我们使用了 Dnsmasq，因为 Dnsmasq 是个非常常用的软件，就不多介绍了，在 Dnsmasq 的配置文件里加上:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">enable-ra</span><br><span class="line">dhcp-range=::,constructor:br0,ra-only,slaac</span><br></pre></td></tr></table></figure>
+
+<p><code>br0</code> 填入你的局域网接口。</p>
+<p>这时你的局域网设备应该也能分配到全球唯一的 IPv6 地址了。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E6%95%85%E4%BA%8B"><span class="toc-number">1.</span> <span class="toc-text">背景故事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-IPv6-%E7%9A%84%E5%B0%8F%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">关于 IPv6 的小介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">环境配置</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&text=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&is_video=false&description=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=X86 软路由配置 IPv6 踩坑小记&body=Check out this article: http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&title=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&name=X86 软路由配置 IPv6 踩坑小记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2020/11/11/x86-soft-router-and-ipv6/&t=X86 软路由配置 IPv6 踩坑小记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    Fledge Shiu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
