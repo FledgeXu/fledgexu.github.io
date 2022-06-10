@@ -141,3 +141,7 @@ tags:
 
 6.10 16:25 结束Refused状态，进入Administrative Processing
 
+## 杂项
+
+为了方便大家辨认VO，我弄了一张VO合影合集的AI增加版照片。
+![check.png](usa-f1-visa-interview-under-2022-covid-in-guangzhou-consulate/all-vo.jpeg)
