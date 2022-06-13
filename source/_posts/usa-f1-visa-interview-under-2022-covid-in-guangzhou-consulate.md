@@ -141,6 +141,8 @@ tags:
 
 6.10 16:25 结束Refused状态，进入Administrative Processing
 
+6.13 10:30 issued，check结束，签证通过
+
 ## 杂项
 
 为了方便大家辨认VO，我弄了一张VO合影合集的AI增加版照片。
