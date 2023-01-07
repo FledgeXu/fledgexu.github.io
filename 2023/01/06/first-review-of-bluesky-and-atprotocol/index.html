@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="今天和朋友聊起 Twitter 最近发生的事情，想起来 Bluesky，发现他们已经公布他们的协议 AT Protocol（Authenticated Transfer Protocol）了。于是去看了一下，下面是感想。 首先这个名字一下子就让我想起 A.T. Field，不知道只是巧合还是团队也是 EVA 的粉丝，这个是个有意设计出来的名字。这个协议和 Mastodon 用的 ActivityP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bluesky 的 AT Protocol 随想">
+<meta property="og:url" content="http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/index.html">
+<meta property="og:site_name" content="曳东搬西">
+<meta property="og:description" content="今天和朋友聊起 Twitter 最近发生的事情，想起来 Bluesky，发现他们已经公布他们的协议 AT Protocol（Authenticated Transfer Protocol）了。于是去看了一下，下面是感想。 首先这个名字一下子就让我想起 A.T. Field，不知道只是巧合还是团队也是 EVA 的粉丝，这个是个有意设计出来的名字。这个协议和 Mastodon 用的 ActivityP">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-06T21:42:57.000Z">
+<meta property="article:modified_time" content="2023-01-07T02:49:57.487Z">
+<meta property="article:author" content="Fledge Shiu">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Bluesky 的 AT Protocol 随想</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="曳东搬西" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/05/04/usa-f1-visa-interview-under-2022-covid-in-guangzhou-consulate/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&text=Bluesky 的 AT Protocol 随想"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&title=Bluesky 的 AT Protocol 随想"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&is_video=false&description=Bluesky 的 AT Protocol 随想"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Bluesky 的 AT Protocol 随想&body=Check out this article: http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&title=Bluesky 的 AT Protocol 随想"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&title=Bluesky 的 AT Protocol 随想"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&title=Bluesky 的 AT Protocol 随想"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&title=Bluesky 的 AT Protocol 随想"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&name=Bluesky 的 AT Protocol 随想&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&t=Bluesky 的 AT Protocol 随想"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Bluesky 的 AT Protocol 随想
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Fledge Shiu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-01-06T21:42:57.000Z" itemprop="datePublished">2023-01-06</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>今天和朋友聊起 Twitter 最近发生的事情，想起来 Bluesky，发现他们已经<a target="_blank" rel="noopener" href="https://blueskyweb.xyz/blog/10-18-2022-the-at-protocol">公布</a>他们的协议 <a target="_blank" rel="noopener" href="https://atproto.com/">AT Protocol（Authenticated Transfer Protocol）</a>了。于是去看了一下，下面是感想。</p>
+<p>首先这个名字一下子就让我想起 A.T. Field，不知道只是巧合还是团队也是 EVA 的粉丝，这个是个有意设计出来的名字。这个协议和 Mastodon 用的 ActivityPub 一样是个Federated 的协议，团队在FAQ里解释了<a target="_blank" rel="noopener" href="https://atproto.com/guides/faq#why-not-use-activitypub">为什么不用ActivityPub</a>，我觉得他们指出的确实是ActivityPub的痛点。特别是用户数据保存和迁移这件事，我在实际使用Mastodon的时候见过很多真实的案例，是切实的痛点。在AT Protocol下，用户数据确实可以做到任意的迁移保存，而且不会丢失社交关系（这点其实对于社交网络协议来说来说很重要，Mastodon 在迁移之后会丢失被关注者的数据，相当于重新做一个新号）。另外因为 Bluesky 的团队有之前 IPFS 团队的成员，用户数据（Data Repository）在 AT Protocol 里使用 IPLD 储存的，如果是这样的话，AT Protocol 应该对于 IPFS 有原生的支持，之后兼容其他在 IPFS 网络上的东西应该也不困难。</p>
+<p>因为这个协议是个 Federated 的协议，在他们的语境下 Mastodon 的 Instance 叫做 Personal Data Servers（PDS），交换方式使用的是 XRPC，我们之后再来讲 XPRC。PDS 似乎会把用户数据存储在 IPFS 上，但是 PDS 和用户之间的通讯应该是普通的HTTPS，PDS 和 PDS 之前的同步，目前还不是很清楚，因为用户数据是个 Merkle Search Tree，估计同步方式是是通过 HTTPS 传输 Root 的 CID，然后判断要不要同步这个 CID 吧。</p>
+<p>只是 XPRC 其实就是一个是个带有 Schema 的 JSON-LD，在他们的语境里这个Schema 叫做 Lexicon（从某种意义上来说，这个是用 JSON 把 XML 重新发明了一次，不过确实 XML 的语法太繁琐了）。作为对比 ActivityPub 应该直接用的是 JSON-LD，如果我没记错的话。</p>
+<p>在 AT Protocol，开发团队提到了一个叫做 Small-World 和 Big-World 的区别，这个我稍微有点没看懂。似乎这个 Small-world 的意思就是 PDS 只负责简单的传输和同步用户数据，而一些总体性的功能（比如热门、热搜之类的）交给爬虫和 index 服务来完成，这个倒是一个非常实际的选择。</p>
+<p>总体来说 AT Protocol 比起 ActivityPub 来说是个更加轻便的协议，它在功能上没有 ActivityPub 那么大而全，但是协议在设计中也预留了很多可以扩展的空间，在AT Protocol 里应该只需要通过添加 Lexicon 就能添加新的功能了。不过我看了一眼现在已有的 Lexicon 没有锁推的功能😂，不过有一个可以邀请加入 Group 的功能，还挺神奇的。</p>
+<p>AT Protocol 比起 ActivityPub 也更加注重用户数据的保存和迁移。在 AT Protocol 里用户的数据应该很容易的被保存，也很应该很容易的迁移，AT Protocol 在设计的时候也考虑到了 PDS 突然消失后，用户数据丢失的风险，在这点上比 ActivityPub 想的更加周到。另外按照协议的样子，PDS 的服务端应该不会很复杂，Self-Host 可能也会更加容易。</p>
+<p>当用户的数据存在在 IPFS 上，那么用户可以很容易的备份和转移他们的数据，Sir Tim Berners-Lee 的 Solid 的愿景，也成了事实。</p>
+<p>当然我这个只是一个粗略的感想，具体还有很多技术上的细节没有提及。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&text=Bluesky 的 AT Protocol 随想"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&title=Bluesky 的 AT Protocol 随想"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&is_video=false&description=Bluesky 的 AT Protocol 随想"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Bluesky 的 AT Protocol 随想&body=Check out this article: http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&title=Bluesky 的 AT Protocol 随想"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&title=Bluesky 的 AT Protocol 随想"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&title=Bluesky 的 AT Protocol 随想"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&title=Bluesky 的 AT Protocol 随想"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&name=Bluesky 的 AT Protocol 随想&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2023/01/06/first-review-of-bluesky-and-atprotocol/&t=Bluesky 的 AT Protocol 随想"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Fledge Shiu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
