@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="前言本文将会是系列文章中的第一篇，本系列文章讲解释Neovim在配置LSP过程中涉及到的各种概念和插件，以及它们的作用。本文会解释基础的LSP配置，后续内容会解释自动补全等内容。之后可能还会有关于DAP配置的讲解。 LSP解释可能有的读者还不熟悉什么是LSP（Language Server Protocol），这里我希望先简单的解释一下什么是是LSP。  The Language Server P">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neovim Language Server Protocol 配置解释">
+<meta property="og:url" content="http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/index.html">
+<meta property="og:site_name" content="曳东搬西">
+<meta property="og:description" content="前言本文将会是系列文章中的第一篇，本系列文章讲解释Neovim在配置LSP过程中涉及到的各种概念和插件，以及它们的作用。本文会解释基础的LSP配置，后续内容会解释自动补全等内容。之后可能还会有关于DAP配置的讲解。 LSP解释可能有的读者还不熟悉什么是LSP（Language Server Protocol），这里我希望先简单的解释一下什么是是LSP。  The Language Server P">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/177617680-d62caf26-f253-4ace-ab57-4b590595adca.png">
+<meta property="article:published_time" content="2023-07-05T21:53:07.000Z">
+<meta property="article:modified_time" content="2023-07-11T23:15:29.739Z">
+<meta property="article:author" content="Fledge Shiu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/177617680-d62caf26-f253-4ace-ab57-4b590595adca.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Neovim Language Server Protocol 配置解释</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="曳东搬西" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/04/14/how-to-acquire-a-language/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&text=Neovim Language Server Protocol 配置解释"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&title=Neovim Language Server Protocol 配置解释"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&is_video=false&description=Neovim Language Server Protocol 配置解释"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Neovim Language Server Protocol 配置解释&body=Check out this article: http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&title=Neovim Language Server Protocol 配置解释"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&title=Neovim Language Server Protocol 配置解释"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&title=Neovim Language Server Protocol 配置解释"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&title=Neovim Language Server Protocol 配置解释"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&name=Neovim Language Server Protocol 配置解释&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&t=Neovim Language Server Protocol 配置解释"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSP%E8%A7%A3%E9%87%8A"><span class="toc-number">2.</span> <span class="toc-text">LSP解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">初始的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">默认配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85"><span class="toc-number">5.</span> <span class="toc-text">自动化安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E7%BB%AD"><span class="toc-number">6.</span> <span class="toc-text">后续</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Neovim Language Server Protocol 配置解释
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Fledge Shiu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-07-05T21:53:07.000Z" class="dt-published" itemprop="datePublished">2023-07-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文将会是系列文章中的第一篇，本系列文章讲解释Neovim在配置LSP过程中涉及到的各种概念和插件，以及它们的作用。本文会解释基础的LSP配置，后续内容会解释自动补全等内容。之后可能还会有关于DAP配置的讲解。</p>
+<h2 id="LSP解释"><a href="#LSP解释" class="headerlink" title="LSP解释"></a>LSP解释</h2><p>可能有的读者还不熟悉什么是LSP（Language Server Protocol），这里我希望先简单的解释一下什么是是LSP。</p>
+<blockquote>
+<p>The Language Server Protocol (LSP) defines the protocol used between an editor or IDE and a language server that provides language features like auto complete, go to definition, find all references etc. The goal of the Language Server Index Format (LSIF, pronounced like “else if”) is to support rich code navigation in development tools or a Web UI without needing a local copy of the source code.</p>
+<p>语言服务器协议（LSP）定义了编辑器或IDE与语言服务器之间使用的协议，该协议提供了诸如自动完成、转到定义、查找所有参考文献等语言功能。语言服务器索引格式（LSIF，发音类似于 “else if”）的目标是在开发工具或Web UI中支持丰富的代码导航，而不需要源代码的本地拷贝。</p>
+</blockquote>
+<p>上述是微软对于LSP的官方定义。简单的来说，LSP是一个协议，Language Server可以通过这个协议给IDE或者文本编辑器（比如Neovim、VScode等），提供诸如自动补全，定义跳转等功能。总体而言，LSP定义了一个简单的服务器-客户端模型。</p>
+<h2 id="初始的配置"><a href="#初始的配置" class="headerlink" title="初始的配置"></a>初始的配置</h2><p>因为Neovim已经实现了LSP协议，所以你不需要任何插件的情况下，就可以配置使用LSP，比如下面就是一个官方的例子：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim.lsp.start(&#123;</span><br><span class="line">  name = <span class="string">&#x27;my-server-name&#x27;</span>,</span><br><span class="line">  cmd = &#123;<span class="string">&#x27;name-of-language-server-executable&#x27;</span>&#125;,</span><br><span class="line">  root_dir = vim.fs.dirname(vim.fs.<span class="built_in">find</span>(&#123;<span class="string">&#x27;setup.py&#x27;</span>, <span class="string">&#x27;pyproject.toml&#x27;</span>&#125;, &#123; upward = <span class="literal">true</span> &#125;)[<span class="number">1</span>]),</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，其实每个LSP配置并不复杂，你只需要让Neovim启动制定的Language Server，然后进行对于的设置就行。但是这里有两个问题：</p>
+<ol>
+<li>我们可能会用到很多种编程语言，要给每种编程语言都手动配置一遍，是个很繁杂的劳动。</li>
+<li><ol start="2">
+<li>对于某种语言的配置，大部分的时候大部分人的配置应该是差不多的，是可以共享的。</li>
+</ol>
+</li>
+</ol>
+<p>为了解决这两个问题，我们需要用到第一个插件：<a target="_blank" rel="noopener" href="https://github.com/neovim/nvim-lspconfig">neovim&#x2F;nvim-lspconfig</a>。</p>
+<h2 id="默认配置"><a href="#默认配置" class="headerlink" title="默认配置"></a>默认配置</h2><p>如果你注意观察 <a target="_blank" rel="noopener" href="https://github.com/neovim/nvim-lspconfig">neovim&#x2F;nvim-lspconfig</a> 这个插件的名字的话，你会发现这个插件是个Neovim官方提供的。而这个插件的作用正是为了解决上文中提及的两个问题。它的原理很简单，就是提供了一系列默认的Language Server的默认配置，免除了用户手动配置这些Language Server的烦恼。而又因为这个插件是官方提供的，所以普通用户也可以共享同一套配置，不需要手动配置。</p>
+<p>使用这个插件的方法也很简单，首先你需要安装这个插件，接下来你需要安装对应语言的Language Server，最后输入<code>require&#39;lspconfig&#39;.pyright.setup&#123;&#125;</code> 类似这样的配置（这里以Python的Pyright为例），就可以启用了。和之前还需要手动配置插件比起来，它已经简单了不少了，但是这里依旧还有麻烦的地方：</p>
+<ol>
+<li>我们还需要手动安装 Language Server</li>
+<li>手动启用对应的 Language Server 的配置。</li>
+</ol>
+<p>对于程序员来说，懒惰是种美德，我们想要节省这部分的劳动，这里就带出了剩下的两个插件了。</p>
+<h2 id="自动化安装"><a href="#自动化安装" class="headerlink" title="自动化安装"></a>自动化安装</h2><p>在上文中我们提到了，虽然 <a target="_blank" rel="noopener" href="https://github.com/neovim/nvim-lspconfig">neovim&#x2F;nvim-lspconfig</a> 让我们免除了手动配置 Language Server 之苦，但是我们依旧需要手动安装每种语言的 Language Server， 以及在安装完 Language Server 之后，启用每种语言 Language Server 的默认配置。这些行为依旧十分麻烦，所以我们就想自动化它们。为了达成这个目标，我们需要接下来两个插件：<a target="_blank" rel="noopener" href="https://github.com/williamboman/mason.nvim">williamboman&#x2F;mason.nvim</a> 和 <a target="_blank" rel="noopener" href="https://github.com/williamboman/mason-lspconfig.nvim">williamboman&#x2F;mason-lspconfig.nvim</a>。</p>
+<p>我们先从 Mason 开始讲起，Mason 的作用非常简单，它提供了一个简单易懂的UI和一些方便的命令，让你可以安装包括 LSP，DAP，Linter 在内的一系列工具（我们目前只会用到 LSP 的部分，其他的东西之后会讲），当然你也可以在配置文件中预先写好你需要的工具，让它自动安装，下图是 Mason 官方的提供的一个截图，你可以很轻松的理解它的功能。</p>
+<p><img src="/2023/07/05/neovim-language-server-config-explanation/177617680-d62caf26-f253-4ace-ab57-4b590595adca.png" alt="img"></p>
+<p>而 <a target="_blank" rel="noopener" href="https://github.com/williamboman/mason-lspconfig.nvim">williamboman&#x2F;mason-lspconfig.nvim</a> 可能就比较抽象了，因为它没有一个UI界面提示你来做什么。但是它的作用也很好理解，它可以在你用 Mason 安装完Language Server之后，自动的启用 <a target="_blank" rel="noopener" href="https://github.com/neovim/nvim-lspconfig">neovim&#x2F;nvim-lspconfig</a> 中对应的配置。当然魔法不会自动发生，即使你装了 <a target="_blank" rel="noopener" href="https://github.com/williamboman/mason-lspconfig.nvim">williamboman&#x2F;mason-lspconfig.nvim</a> 这个插件，你依旧需要配置它才能实现自动化安装，因为这篇文章不会涉及到具体配置的内容，具体的配置请查阅<a target="_blank" rel="noopener" href="https://github.com/williamboman/mason-lspconfig.nvim/blob/main/doc/mason-lspconfig.txt">插件的文档</a>。</p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>当这三个插件互相配合安装完毕之后，然后你安装了一些 Language Server 和配置了快捷键之后，你的 Neovim 应该会有了一些基础 LSP 功能了，比如查看函数的定义，跳转到对应的实现或者定义部分等，但是这里还缺了一个关键的功能：自动补全。而这个功能，我们会在下一篇文章中讲解。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSP%E8%A7%A3%E9%87%8A"><span class="toc-number">2.</span> <span class="toc-text">LSP解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">初始的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">默认配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85"><span class="toc-number">5.</span> <span class="toc-text">自动化安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E7%BB%AD"><span class="toc-number">6.</span> <span class="toc-text">后续</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&text=Neovim Language Server Protocol 配置解释"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&title=Neovim Language Server Protocol 配置解释"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&is_video=false&description=Neovim Language Server Protocol 配置解释"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Neovim Language Server Protocol 配置解释&body=Check out this article: http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&title=Neovim Language Server Protocol 配置解释"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&title=Neovim Language Server Protocol 配置解释"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&title=Neovim Language Server Protocol 配置解释"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&title=Neovim Language Server Protocol 配置解释"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&name=Neovim Language Server Protocol 配置解释&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2023/07/05/neovim-language-server-config-explanation/&t=Neovim Language Server Protocol 配置解释"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Fledge Shiu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
