@@ -107,9 +107,12 @@ theme_config:
     colorscheme: white
     rss: 
     social_links:
-        github: https://github.com/FledgeXu
-        twitter: https://twitter.com/fledgexu
-        mail: mailto:xzk0701@gmail.com
+      - icon: github
+        link: https://github.com/FledgeXu
+      - icon: twitter 
+        link: https://github.com/FledgeXu 
+      - icon: envelope
+        link: mailto:xzk0701@gmail.com
     gravatar:
         email: xzk0701@gmail.com
         hash: df0a71f2b2b4d119234fb8a3d71d4d36

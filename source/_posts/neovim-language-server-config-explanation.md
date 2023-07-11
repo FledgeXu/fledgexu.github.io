@@ -1,10 +1,8 @@
 ---
-layout: layout
 title: Neovim Language Server Protocol 配置解释
 date: 2023-07-05 21:53:07
 tags:
 ---
-
 
 ## 前言
 
