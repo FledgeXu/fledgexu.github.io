@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="无需配置的补全在这一篇中，我们会来讲解一下如何配置NeoVim的自动补全。在开始讲我们的插件之前，我需要先提一嘴，Vim&#x2F;NeoVim在没有安装任何插件的情况下，也是有自动补全功能的，这个模式叫做：Insert and Replace（插入和替换），具体的文档可以查看 :h ins-completion。Vim默认提供了一系列的补全功能，比如你可以补全Buffer中使用过的字符串、文件名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何配置NeoVim的自动补全">
+<meta property="og:url" content="http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/index.html">
+<meta property="og:site_name" content="曳东搬西">
+<meta property="og:description" content="无需配置的补全在这一篇中，我们会来讲解一下如何配置NeoVim的自动补全。在开始讲我们的插件之前，我需要先提一嘴，Vim&#x2F;NeoVim在没有安装任何插件的情况下，也是有自动补全功能的，这个模式叫做：Insert and Replace（插入和替换），具体的文档可以查看 :h ins-completion。Vim默认提供了一系列的补全功能，比如你可以补全Buffer中使用过的字符串、文件名">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-02T16:53:28.000Z">
+<meta property="article:modified_time" content="2023-08-02T20:54:11.979Z">
+<meta property="article:author" content="Fledge Shiu">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>如何配置NeoVim的自动补全</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="曳东搬西" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/07/05/neovim-language-server-config-explanation/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&text=如何配置NeoVim的自动补全"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&title=如何配置NeoVim的自动补全"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&is_video=false&description=如何配置NeoVim的自动补全"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如何配置NeoVim的自动补全&body=Check out this article: http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&title=如何配置NeoVim的自动补全"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&title=如何配置NeoVim的自动补全"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&title=如何配置NeoVim的自动补全"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&title=如何配置NeoVim的自动补全"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&name=如何配置NeoVim的自动补全&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&t=如何配置NeoVim的自动补全"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E9%9C%80%E9%85%8D%E7%BD%AE%E7%9A%84%E8%A1%A5%E5%85%A8"><span class="toc-number">1.</span> <span class="toc-text">无需配置的补全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="toc-number">2.</span> <span class="toc-text">自动补全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">基础的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%92%88%E5%AF%B9LSP%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">针对LSP的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%9D%E5%A4%96%E7%9A%84%E8%A1%A5%E5%85%A8"><span class="toc-number">5.</span> <span class="toc-text">额外的补全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E7%9A%84%E8%AF%95%E9%AA%8C%E6%80%A7%E9%85%8D%E7%BD%AE"><span class="toc-number">6.</span> <span class="toc-text">推荐的试验性配置</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        如何配置NeoVim的自动补全
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Fledge Shiu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-08-02T16:53:28.000Z" class="dt-published" itemprop="datePublished">2023-08-02</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="无需配置的补全"><a href="#无需配置的补全" class="headerlink" title="无需配置的补全"></a>无需配置的补全</h2><p>在这一篇中，我们会来讲解一下如何配置NeoVim的自动补全。在开始讲我们的插件之前，我需要先提一嘴，Vim&#x2F;NeoVim在没有安装任何插件的情况下，也是有自动补全功能的，这个模式叫做：<code>Insert and Replace（插入和替换）</code>，具体的文档可以查看 <code>:h ins-completion</code>。Vim默认提供了一系列的补全功能，比如你可以补全Buffer中使用过的字符串、文件名等等等。除了这些预设好的补全之外，Vim还提供了一个叫做<code>omni completion</code>的功能，默认情况下你可以通过在插入模式下按<code>Ctrl_x Ctrl_o</code> 来启动这个补全。正如这个名字暗示的那样，这个补全是个通用补全，你可以设置Vim&#x2F;NeoVim中的<code>omnifunc</code>来向这个补全中添加内容。实际上<a target="_blank" rel="noopener" href="https://github.com/neovim/nvim-lspconfig">neovim&#x2F;nvim-lspconfig</a>的推荐配置里有这样一句配置：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim.bo[ev.buf].omnifunc = <span class="string">&#x27;v:lua.vim.lsp.omnifunc&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>这句话的意思就是让当前Buffer的<code>omnifunc</code>等于lsp提供的<code>omnifunc</code>。如果你的配置文件里加上了这句话，你可以试试在你的代码文件中，按下<code>Ctrl_x Ctrl_o</code>来启动<code>omni completion</code>，你应该可以看到一些最基础的补全了。</p>
+<h2 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h2><p>当然这种补全显然不太好用，首先功能非常受限，其次每次补全还需要按一下快捷键，这个着实不太方便，我们需要更好的工具，而这里我们用到的最主要的一个插件就是<a target="_blank" rel="noopener" href="https://github.com/hrsh7th/nvim-cmp">nvim-cmp</a>（之后以CMP代替）。CMP自己的官方定义是一个补全引擎。这个是什么意思呢？补全引擎的意思是，它会整合一系列的补全源（Sources），作为补全结果显示出来，然后你需要去配置，如何确认这些补全结果，在什么时候使用这些补全源，补全源的显示顺序是什么等一系列的事。</p>
+<p>所以在安装了CMP之后，你还不能直接使用CMP，你还需要安装一系列的补全源，如果你去看CMP的官方推荐配置的话，它还提到了如下的一系列插件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Plug &#x27;neovim/nvim-lspconfig&#x27;</span><br><span class="line">Plug &#x27;hrsh7th/cmp-nvim-lsp&#x27;</span><br><span class="line">Plug &#x27;hrsh7th/cmp-buffer&#x27;</span><br><span class="line">Plug &#x27;hrsh7th/cmp-path&#x27;</span><br><span class="line">Plug &#x27;hrsh7th/cmp-cmdline&#x27;</span><br><span class="line">Plug &#x27;hrsh7th/nvim-cmp&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>可以这些插件提供的都是补全源，补全源我粗略的分成三类：</p>
+<ol>
+<li><p>基于LSP的补全，这部分部分补全比如函数名，模块名，变量名等功能</p>
+</li>
+<li><p>Snippets的补全，这部分负责给你补全一些预先提供好的代码块，比如一个函数的定义等</p>
+</li>
+<li><p>一些小内容的补全，这些负责的东西就比较多了，比如文件的路径，Vim的命令，Buffer中的单词等。</p>
+</li>
+</ol>
+<h2 id="基础的配置"><a href="#基础的配置" class="headerlink" title="基础的配置"></a>基础的配置</h2><p>在有了补全引擎和补全源之后，我们就可以看一些基础的配置，最为基本的CMP配置应该包含如下内容。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> cmp = <span class="built_in">require</span><span class="string">&#x27;cmp&#x27;</span></span><br><span class="line">cmp.setup(&#123;</span><br><span class="line">  snippet = &#123;</span><br><span class="line">    <span class="comment">-- REQUIRED - you must specify a snippet engine</span></span><br><span class="line">    expand = <span class="function"><span class="keyword">function</span><span class="params">(args)</span></span></span><br><span class="line">      vim.fn[<span class="string">&quot;vsnip#anonymous&quot;</span>](args.body) <span class="comment">-- For `vsnip` users.</span></span><br><span class="line">      <span class="comment">-- require(&#x27;luasnip&#x27;).lsp_expand(args.body) -- For `luasnip` users.</span></span><br><span class="line">      <span class="comment">-- require(&#x27;snippy&#x27;).expand_snippet(args.body) -- For `snippy` users.</span></span><br><span class="line">      <span class="comment">-- vim.fn[&quot;UltiSnips#Anon&quot;](args.body) -- For `ultisnips` users.</span></span><br><span class="line">    <span class="keyword">end</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  mapping = cmp.mapping.preset.<span class="built_in">insert</span>(&#123;</span><br><span class="line">    [<span class="string">&#x27;&lt;C-b&gt;&#x27;</span>] = cmp.mapping.scroll_docs(<span class="number">-4</span>),</span><br><span class="line">    [<span class="string">&#x27;&lt;C-f&gt;&#x27;</span>] = cmp.mapping.scroll_docs(<span class="number">4</span>),</span><br><span class="line">    [<span class="string">&#x27;&lt;C-Space&gt;&#x27;</span>] = cmp.mapping.complete(),</span><br><span class="line">    [<span class="string">&#x27;&lt;C-e&gt;&#x27;</span>] = cmp.mapping.abort(),</span><br><span class="line">    [<span class="string">&#x27;&lt;CR&gt;&#x27;</span>] = cmp.mapping.confirm(&#123; <span class="built_in">select</span> = <span class="literal">true</span> &#125;), <span class="comment">-- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.</span></span><br><span class="line">  &#125;),</span><br><span class="line">  sources = cmp.<span class="built_in">config</span>.sources(&#123;</span><br><span class="line">    &#123; name = <span class="string">&#x27;nvim_lsp&#x27;</span> &#125;,</span><br><span class="line">    &#123; name = <span class="string">&#x27;vsnip&#x27;</span> &#125;, <span class="comment">-- For vsnip users.</span></span><br><span class="line">    <span class="comment">-- &#123; name = &#x27;luasnip&#x27; &#125;, -- For luasnip users.</span></span><br><span class="line">    <span class="comment">-- &#123; name = &#x27;ultisnips&#x27; &#125;, -- For ultisnips users.</span></span><br><span class="line">    <span class="comment">-- &#123; name = &#x27;snippy&#x27; &#125;, -- For snippy users.</span></span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    &#123; name = <span class="string">&#x27;buffer&#x27;</span> &#125;,</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>对于一个cmp的基础配置来说，主要有三个部分（其实只有两个）。第一个也是最重要的就是：<code>sources</code>。你需要在这里告诉你的cmp这个补全引擎，你需要有哪些补全源，比如常见的<code>nvim_lsp</code>，这个补全源的数据是来自LSP，其次还有比如我们之前提到的<code>buffer</code>等。你可以自由的排序和分组这些补全源。第二重要的就是<code>mappings</code>，这个部分是规定了CMP是如何进行补全操作，在默认情况下，CMP是通过上下键来选择补全内容，然后按回车键进行补全。如果你需要不同的补全风格，可以查看项目<a target="_blank" rel="noopener" href="https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings">Wiki</a>中提供的其他补全快捷键风格的mappings。其实对于简单的补全来说，你配置完这两部分，已经可以使用了。但是如果你还需要使用snippets的话，还得安装注释启用snippets。这么做的原因是一般情况下snippets也是某种引擎，所以你得让两个引擎能配合使用。</p>
+<h2 id="针对LSP的配置"><a href="#针对LSP的配置" class="headerlink" title="针对LSP的配置"></a>针对LSP的配置</h2><p>为了能使用LSP提供的信息，你需要对你的LSP进行一些额外的配置，让它的信息能暴露给cmp-nvim-lsp使用。你需要告诉cmp-nvim-lsp你的LSP有哪些capabilities。下面是官方的配置：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Set up lspconfig.</span></span><br><span class="line"><span class="keyword">local</span> capabilities = <span class="built_in">require</span>(<span class="string">&#x27;cmp_nvim_lsp&#x27;</span>).default_capabilities()</span><br><span class="line"><span class="comment">-- Replace &lt;YOUR_LSP_SERVER&gt; with each lsp server you&#x27;ve enabled.</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;lspconfig&#x27;</span>)[<span class="string">&#x27;&lt;YOUR_LSP_SERVER&gt;&#x27;</span>].setup &#123;</span><br><span class="line">  capabilities = capabilities</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="额外的补全"><a href="#额外的补全" class="headerlink" title="额外的补全"></a>额外的补全</h2><p>在你写完上述的配置之后，你的自动补全应该可以正常运作了，但是如果你想要一些额外的自动补全，比如在你输入某个特定的字符之后才会触发，或者你想要在某个特定的Mode下，才会触发自动补全，你需要进行一些额外的配置，下面是一些来自官方的例子：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Set configuration for specific filetype.</span></span><br><span class="line"> cmp.setup.filetype(<span class="string">&#x27;gitcommit&#x27;</span>, &#123;</span><br><span class="line">   sources = cmp.<span class="built_in">config</span>.sources(&#123;</span><br><span class="line">     &#123; name = <span class="string">&#x27;git&#x27;</span> &#125;, <span class="comment">-- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).</span></span><br><span class="line">   &#125;, &#123;</span><br><span class="line">     &#123; name = <span class="string">&#x27;buffer&#x27;</span> &#125;,</span><br><span class="line">   &#125;)</span><br><span class="line"> &#125;)</span><br><span class="line"></span><br><span class="line"> <span class="comment">-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won&#x27;t work anymore).</span></span><br><span class="line"> cmp.setup.cmdline(&#123; <span class="string">&#x27;/&#x27;</span>, <span class="string">&#x27;?&#x27;</span> &#125;, &#123;</span><br><span class="line">   mapping = cmp.mapping.preset.cmdline(),</span><br><span class="line">   sources = &#123;</span><br><span class="line">     &#123; name = <span class="string">&#x27;buffer&#x27;</span> &#125;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;)</span><br><span class="line"></span><br><span class="line"> <span class="comment">-- Use cmdline &amp; path source for &#x27;:&#x27; (if you enabled `native_menu`, this won&#x27;t work anymore).</span></span><br><span class="line"> cmp.setup.cmdline(<span class="string">&#x27;:&#x27;</span>, &#123;</span><br><span class="line">   mapping = cmp.mapping.preset.cmdline(),</span><br><span class="line">   sources = cmp.<span class="built_in">config</span>.sources(&#123;</span><br><span class="line">     &#123; name = <span class="string">&#x27;path&#x27;</span> &#125;</span><br><span class="line">   &#125;, &#123;</span><br><span class="line">     &#123; name = <span class="string">&#x27;cmdline&#x27;</span> &#125;</span><br><span class="line">   &#125;)</span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到上述的配置中，我们针对不同的情况：<code>filetype</code>，<code>cmdline</code>和不同的触发单词<code>&#123; &#39;/&#39;, &#39;?&#39; &#125;</code>、<code>&#39;:&#39;</code>做了单独的配置。</p>
+<h2 id="推荐的试验性配置"><a href="#推荐的试验性配置" class="headerlink" title="推荐的试验性配置"></a>推荐的试验性配置</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">experimental = &#123;</span><br><span class="line">  ghost_text = <span class="literal">true</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我推荐大家在<code>setup</code>中启用<code>ghost_text</code>选项，这个选项会让CMP预先渲染出要补全的内容，非常的方便。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E9%9C%80%E9%85%8D%E7%BD%AE%E7%9A%84%E8%A1%A5%E5%85%A8"><span class="toc-number">1.</span> <span class="toc-text">无需配置的补全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="toc-number">2.</span> <span class="toc-text">自动补全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">基础的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%92%88%E5%AF%B9LSP%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">针对LSP的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%9D%E5%A4%96%E7%9A%84%E8%A1%A5%E5%85%A8"><span class="toc-number">5.</span> <span class="toc-text">额外的补全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E7%9A%84%E8%AF%95%E9%AA%8C%E6%80%A7%E9%85%8D%E7%BD%AE"><span class="toc-number">6.</span> <span class="toc-text">推荐的试验性配置</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&text=如何配置NeoVim的自动补全"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&title=如何配置NeoVim的自动补全"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&is_video=false&description=如何配置NeoVim的自动补全"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如何配置NeoVim的自动补全&body=Check out this article: http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&title=如何配置NeoVim的自动补全"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&title=如何配置NeoVim的自动补全"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&title=如何配置NeoVim的自动补全"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&title=如何配置NeoVim的自动补全"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&name=如何配置NeoVim的自动补全&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://blog.otakusaikou.com/2023/08/02/how-to-config-autocompletion-in-noevim/&t=如何配置NeoVim的自动补全"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Fledge Shiu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
