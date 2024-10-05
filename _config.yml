@@ -110,8 +110,10 @@ theme_config:
       - icon: github
         link: https://github.com/FledgeXu
       - icon: twitter 
-        link: https://github.com/FledgeXu 
-      - icon: envelope
+        link: https://x.com/FledgeXu
+      - icon: mastodon
+        link: https://mastodon.online/@FledgeXu
+      - icon: mail
         link: mailto:xzk0701@gmail.com
     gravatar:
         email: xzk0701@gmail.com
